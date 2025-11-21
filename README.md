@@ -1,2 +1,2 @@
 # assignment_lsg
-Nur halbe Liebe. test
+Für jede Aufgabe einen seperaten branch erstellen
