@@ -1,2 +1,2 @@
 # assignment_lsg
-Nur Liebe
+Nur halbe Liebe
