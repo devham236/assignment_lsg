@@ -11,6 +11,9 @@ of free parking spots */
 
 typedef enum ParkHouseState {
 	// TODO
+    VOLLES_PARKHAUS,
+    FAST_VOLLES_PARKHAUS,
+    FREIES_PARKHAUS
 } ParkHouseState;
 
 ParkHouseState det_park_house_state(int free_spots);
@@ -23,7 +26,7 @@ static void det_park_house_state_test() {
 }
 //a) TODO
 ParkHouseState det_park_house_state(int free_spots) {
-    return null;
+    return VOLLES_PARKHAUS;
 }
 
 // b) TODO
