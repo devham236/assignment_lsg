@@ -1,4 +1,0 @@
-line 1
-line II
-my line 3
-last line
