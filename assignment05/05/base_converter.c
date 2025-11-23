@@ -10,8 +10,8 @@ String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 //3a) TODO
 /*
 Gibt eine Zahl zurück, die beschreibt wie viele Zeichen für den dynamisch allokierten String benötigt werden.
-@param number -> Zahl, die logarithmiert wird (log2(number)) und mit 1 addiert wird
-@param base -> Basis des Logarithmus (logbase(number))
+@param number -> Zahl, die benötigt wird um zu berechnen wie viele chars benötigt werden
+@param base -> Zahl, die für die Berechnung benötigt wird
 @return -> Die Zeichenlänge die für die Zahl benötigt wird
 */
 int length_for_base(int number, int base){
@@ -52,14 +52,23 @@ String convert_to_base(int number, int base){
     [2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z]
 
     Du willst Dezimalzahlen in Binärzahlen umwandeln, number = 5 und base = 2 soll "101" ergeben, weil:
-    5/2 -> 2 -> Rest: 1
-    2/2 -> 1 -> Rest: 0
-    1/2 -> 0 -> Rest: 1
+    5/2 -> 2 -> Rest: 1 ^
+    2/2 -> 1 -> Rest: 0 |
+    1/2 -> 0 -> Rest: 1 |
+
+    100/10 -> 10 -> Rest: 0
+    10/10 -> 1 -> Rest 0
+    1/10 -> 0 -> Rest 1
+
+    10/16 -> 0 -> Rest: 10
+    characters[10] = 'A'
+
     
     */
    if (number == 0) {
     return "0";
    } 
+
    String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
    String resultStr = get_string_for_number_and_base(number, base);
    int length = s_length(resultStr);
