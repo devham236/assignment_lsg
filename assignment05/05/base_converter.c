@@ -8,11 +8,17 @@
 
 String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 //3a) TODO
+/*
+Gibt eine Zahl zurück, die beschreibt wie viele Zeichen für den dynamisch allokierten String benötigt werden.
+@param number -> Zahl, die benötigt wird um zu berechnen wie viele chars benötigt werden
+@param base -> Zahl, die für die Berechnung benötigt wird
+@return -> Die Zeichenlänge die für die Zahl benötigt wird
+*/
 int length_for_base(int number, int base){
-    if(number == 0)
+    if(number == 0) // log von 1 zur Basis 2 ist immer 0
         return 1;
-    double needed_chars = log(number + 1)/log(base);
-    int length = ceil(needed_chars);
+    double needed_chars = log(number + 1)/log(base); // gibt an, wie viele Zeichen die Zahl benötigt (Rückgabewert ist ein double)
+    int length = ceil(needed_chars); // runded das ergebnis auf
     return length;
 }
 /*
@@ -25,7 +31,7 @@ String get_string_for_number_and_base(int number, int base){
     int length = length_for_base(number, base);
     String s = xcalloc(sizeof(char), length + 1);
     //printf("length: %d\n", length);
-    for(int i = 0; i< length; i++){
+    for(int i = 0; i < length; i++){
         s[i] = '#';
     }
     return s;
@@ -39,7 +45,44 @@ String get_string_for_number_and_base(int number, int base){
 */
 String convert_to_base(int number, int base){
     //3b) TODO
-    return "";
+    /*
+    Intervall für Basen ist [2, 36], weil 1 immer 0 zurück gibt.
+    Ab 9 fängt dann Alphabet an.
+    Das heißt das Interval sieht so aus:
+    [2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z]
+
+    Du willst Zahlen in beliebige Basen von 1 bis 36 umwandeln. Dabei wird immer der Rest als index für den jeweiligen Wert des characters string genommen.
+    number = 5 und base = 2 soll "101" ergeben, weil:
+    5/2 -> 2 -> Rest: 1 ^
+    2/2 -> 1 -> Rest: 0 |
+    1/2 -> 0 -> Rest: 1 |
+
+    100/10 -> 10 -> Rest: 0
+    10/10 -> 1 -> Rest 0
+    1/10 -> 0 -> Rest 1
+
+    10/16 -> 0 -> Rest: 10
+    characters[10] = 'A'
+
+    
+    */
+   if (number == 0) {
+    return "0";
+   } 
+
+   String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   String resultStr = get_string_for_number_and_base(number, base);
+   int length = s_length(resultStr);
+   int index = length - 1;
+
+   while (number > 0) {
+    int rest = number % base;
+    s_set(resultStr, index, characters[rest]);
+    number /= base;
+    index--;
+   }
+
+   return resultStr;
 }
 
 /*
