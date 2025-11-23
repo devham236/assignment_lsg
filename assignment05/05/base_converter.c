@@ -48,7 +48,7 @@ String convert_to_base(int number, int base){
     /*
     Intervall für Basen ist [2, 36], weil 1 immer 0 zurück gibt.
     Ab 9 fängt dann Alphabet an.
-    Das heißt Interval sieht so aus:
+    Das heißt das Interval sieht so aus:
     [2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z]
 
     Du willst Zahlen in beliebige Basen von 1 bis 36 umwandeln. Dabei wird immer der Rest als index für den jeweiligen Wert des characters string genommen.
