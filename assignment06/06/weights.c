@@ -22,6 +22,11 @@ typedef struct weight_s {
 
 Weight make_weight(double amount, Unit unit) {
     // todo
+    Weight w;
+    w.amount = amount;
+    w.unit = unit;
+
+    return w;
 }
 
 bool test_within_weight(int line, Weight a, Weight e, double tolerance) {
@@ -32,6 +37,12 @@ bool test_within_weight(int line, Weight a, Weight e, double tolerance) {
 
 void print_weight(Weight w) {
     // todo
+    String unit = w.unit == 0 ? "g" : 
+           w.unit == 1 ? "kg" : 
+           w.unit == 2 ? "t" : 
+           w.unit == 3 ? "lb" : "invalid unit";
+
+    printf("\t%.2f %s\n", w.amount, unit);
 }
 
 void print_weight_test() {
@@ -45,6 +56,7 @@ void print_weight_test() {
 // Convert weight to the given target unit.
 Weight to_unit(Weight w, Unit target_unit) {
     // todo
+    return w;
 }
 
 void to_unit_test(void) {
