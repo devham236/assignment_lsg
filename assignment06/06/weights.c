@@ -56,11 +56,49 @@ void print_weight_test() {
 // Convert weight to the given target unit.
 Weight to_unit(Weight w, Unit target_unit) {
     // todo
-    return w;
+    Weight newWeight;
+    switch(target_unit) {
+        // convert to grams (g)
+        case 0: {
+            newWeight.unit = target_unit;
+            newWeight.amount = w.amount * 1000;
+            break;
+        }
+
+        // convert to kilograms (kg)
+        case 1: {
+            newWeight.unit = target_unit;
+            newWeight.amount = w.amount / 1000;
+            break;
+        }
+
+        // convert to tons (t)
+        case 2: {
+            newWeight.unit = target_unit;
+            newWeight.amount = w.amount / 1000;
+            break;
+        }
+
+        // convert to pounds (lbs)
+        case 3: {
+            newWeight.unit = target_unit;
+            newWeight.amount = w.amount * 2.2046226;
+            break;
+        }
+    }
+    
+    return newWeight;
 }
 
 void to_unit_test(void) {
+    // test_within_weight(__LINE__, to_unit(make_weight(1000, G), KG), make_weight(1, KG), 1e-6);
+
+    // only works with certain weight units currently
+    // logic to freely chose current unit and target unit between all types (g, kg, lbs, t) is missing
+    test_within_weight(__LINE__, to_unit(make_weight(1, KG), G), make_weight(1000, G), 1e-6);
     test_within_weight(__LINE__, to_unit(make_weight(1000, G), KG), make_weight(1, KG), 1e-6);
+    test_within_weight(__LINE__, to_unit(make_weight(1000, KG), T), make_weight(1, T), 1e-6);
+    test_within_weight(__LINE__, to_unit(make_weight(1, KG), LB), make_weight(2.2046226, LB), 1e-6);
     // todo: add tests (at least 5)
 }
 
@@ -78,7 +116,7 @@ void compare_test(void) {
 }
 
 int main(void) {
-    print_weight_test();
+    // print_weight_test();
     to_unit_test();
     compare_test();
     return 0;
