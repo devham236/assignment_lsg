@@ -91,8 +91,7 @@ Weight to_unit(Weight w, Unit target_unit) {
 }
 
 void to_unit_test(void) {
-    // test_within_weight(__LINE__, to_unit(make_weight(1000, G), KG), make_weight(1, KG), 1e-6);
-
+    
     // only works with certain weight units currently
     // logic to freely chose current unit and target unit between all types (g, kg, lbs, t) is missing
     test_within_weight(__LINE__, to_unit(make_weight(1, KG), G), make_weight(1000, G), 1e-6);
