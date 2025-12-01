@@ -114,15 +114,9 @@ void to_unit_test(void) {
 int compare(Weight w, Weight v) {
     // todo
     Weight weightW = to_unit(w, v.unit);
-    if(weightW.amount == v.amount) {
-        return 0;
-    }
-    else if(weightW.amount < v.amount) {
-        return -1;
-    }
-    else {
-        return 1;
-    }
+    if(weightW.amount == v.amount) return 0;
+    else if(weightW.amount < v.amount) return -1;
+    else return 1;
 }
 
 void compare_test(void) {
