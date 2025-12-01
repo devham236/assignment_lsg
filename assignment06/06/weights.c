@@ -57,32 +57,41 @@ void print_weight_test() {
 Weight to_unit(Weight w, Unit target_unit) {
     // todo
     Weight newWeight;
+    newWeight.unit = target_unit;
     switch(target_unit) {
         // convert to grams (g)
-        case 0: {
-            newWeight.unit = target_unit;
-            newWeight.amount = w.amount * 1000;
+        case G: {
+            if(w.unit == KG) newWeight.amount = w.amount * 1000;
+            if(w.unit == T) newWeight.amount = w.amount / 1e6;
+            if(w.unit == LB) newWeight.amount = w.amount / 453.6;
+            else newWeight.amount = w.amount;
             break;
         }
 
         // convert to kilograms (kg)
-        case 1: {
-            newWeight.unit = target_unit;
-            newWeight.amount = w.amount / 1000;
+        case KG: {
+            if(w.unit == T) newWeight.amount = w.amount / 1000;
+            if(w.unit == LB) newWeight.amount = w.amount * 2.205;
+            if(w.unit == G) newWeight.amount = w.amount * 1000;
+            else newWeight.amount = w.amount;
             break;
         }
 
         // convert to tons (t)
-        case 2: {
-            newWeight.unit = target_unit;
-            newWeight.amount = w.amount / 1000;
+        case T: {
+            if(w.unit == KG) newWeight.amount = w.amount * 1000;
+            if(w.unit == LB) newWeight.amount = w.amount * 2205;
+            if(w.unit == G) newWeight.amount = w.amount * 1e6;
+            else newWeight.amount = w.amount;
             break;
         }
 
         // convert to pounds (lbs)
-        case 3: {
-            newWeight.unit = target_unit;
-            newWeight.amount = w.amount * 2.2046226;
+        case LB: {
+            if(w.unit == KG) newWeight.amount = w.amount / 2.205;
+            if(w.unit == T) newWeight.amount = w.amount / 2205;
+            if(w.unit == G) newWeight.amount = w.amount * 453.6;
+            else newWeight.amount = w.amount;
             break;
         }
     }
@@ -91,14 +100,12 @@ Weight to_unit(Weight w, Unit target_unit) {
 }
 
 void to_unit_test(void) {
-    
-    // only works with certain weight units currently
-    // logic to freely chose current unit and target unit between all types (g, kg, lbs, t) is missing
-    test_within_weight(__LINE__, to_unit(make_weight(1, KG), G), make_weight(1000, G), 1e-6);
-    test_within_weight(__LINE__, to_unit(make_weight(1000, G), KG), make_weight(1, KG), 1e-6);
-    test_within_weight(__LINE__, to_unit(make_weight(1000, KG), T), make_weight(1, T), 1e-6);
-    test_within_weight(__LINE__, to_unit(make_weight(1, KG), LB), make_weight(2.2046226, LB), 1e-6);
     // todo: add tests (at least 5)
+    test_within_weight(__LINE__, to_unit(make_weight(1, KG), G), make_weight(1000, G), 1e6);
+    test_within_weight(__LINE__, to_unit(make_weight(1, LB), KG), make_weight(0.453592, KG), 1e6);
+    test_within_weight(__LINE__, to_unit(make_weight(1, G), T), make_weight(9.9999918429e-7, T), 1e6);
+    test_within_weight(__LINE__, to_unit(make_weight(1, T), LB), make_weight(2204.62, LB), 1e6);
+    test_within_weight(__LINE__, to_unit(make_weight(1, KG), KG), make_weight(1, KG), 1e6);
 }
 
 // Weight, Weight -> int
