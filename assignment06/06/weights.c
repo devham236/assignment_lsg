@@ -37,10 +37,10 @@ bool test_within_weight(int line, Weight a, Weight e, double tolerance) {
 
 void print_weight(Weight w) {
     // todo
-    String unit = w.unit == 0 ? "g" : 
-           w.unit == 1 ? "kg" : 
-           w.unit == 2 ? "t" : 
-           w.unit == 3 ? "lb" : "invalid unit";
+    String unit = w.unit == G ? "g" : 
+           w.unit == KG ? "kg" : 
+           w.unit == T ? "t" : 
+           w.unit == LB ? "lb" : "invalid unit";
 
     printf("\t%.2f %s\n", w.amount, unit);
 }
