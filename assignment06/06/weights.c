@@ -62,17 +62,17 @@ Weight to_unit(Weight w, Unit target_unit) {
         // convert to grams (g)
         case G: {
             if(w.unit == KG) newWeight.amount = w.amount * 1000;
-            if(w.unit == T) newWeight.amount = w.amount / 1e6;
-            if(w.unit == LB) newWeight.amount = w.amount / 453.6;
+            else if(w.unit == T) newWeight.amount = w.amount / 1e6;
+            else if(w.unit == LB) newWeight.amount = w.amount / 453.6;
             else newWeight.amount = w.amount;
             break;
         }
 
         // convert to kilograms (kg)
         case KG: {
-            if(w.unit == T) newWeight.amount = w.amount / 1000;
-            if(w.unit == LB) newWeight.amount = w.amount * 2.205;
-            if(w.unit == G) newWeight.amount = w.amount * 1000;
+            if(w.unit == T) newWeight.amount = w.amount * 1000;
+            else if(w.unit == LB) newWeight.amount = w.amount * 2.205;
+            else if(w.unit == G) newWeight.amount = w.amount / 1000;
             else newWeight.amount = w.amount;
             break;
         }
@@ -80,8 +80,8 @@ Weight to_unit(Weight w, Unit target_unit) {
         // convert to tons (t)
         case T: {
             if(w.unit == KG) newWeight.amount = w.amount * 1000;
-            if(w.unit == LB) newWeight.amount = w.amount * 2205;
-            if(w.unit == G) newWeight.amount = w.amount * 1e6;
+            else if(w.unit == LB) newWeight.amount = w.amount * 2205;
+            else if(w.unit == G) newWeight.amount = w.amount * 1e6;
             else newWeight.amount = w.amount;
             break;
         }
@@ -89,8 +89,8 @@ Weight to_unit(Weight w, Unit target_unit) {
         // convert to pounds (lbs)
         case LB: {
             if(w.unit == KG) newWeight.amount = w.amount / 2.205;
-            if(w.unit == T) newWeight.amount = w.amount / 2205;
-            if(w.unit == G) newWeight.amount = w.amount * 453.6;
+            else if(w.unit == T) newWeight.amount = w.amount / 2205;
+            else if(w.unit == G) newWeight.amount = w.amount * 453.6;
             else newWeight.amount = w.amount;
             break;
         }
@@ -113,16 +113,29 @@ void to_unit_test(void) {
 // -1 if w is smaller than v and +1 otherwise.
 int compare(Weight w, Weight v) {
     // todo
-    return 0;
+    Weight weightW = to_unit(w, v.unit);
+
+    if(weightW.amount == v.amount) {
+        return 0;
+
+    }
+    else if(weightW.amount < v.amount) {
+        return -1;
+    }
+    else {
+        return 1;
+    }
 }
 
 void compare_test(void) {
-    test_equal_i(compare(make_weight(1000, G), make_weight(1, KG)), 0);
     // todo: add tests (at least 5)
+    test_equal_i(compare(make_weight(1000, G), make_weight(1, KG)), 0);
+    test_equal_i(compare(make_weight(2, T), make_weight(3000, KG)), -1);
+    test_equal_i(compare(make_weight(1, KG), make_weight(900, G)), 1);
 }
 
 int main(void) {
-    // print_weight_test();
+    print_weight_test();
     to_unit_test();
     compare_test();
     return 0;
