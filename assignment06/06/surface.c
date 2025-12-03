@@ -27,7 +27,9 @@ struct Cuboid {
 
 struct GeomObject {
     // todo: implement
-   
+    Cylinder cylinder;
+    Sphere sphere;
+    Cuboid cuboid;
 };
 
 typedef struct Cylinder Cylinder;
