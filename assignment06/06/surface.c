@@ -96,6 +96,7 @@ double surface_area(GeomObject o) {
             double b = o.cuboid.b;
             double c = o.cuboid.c;
             return 2 * (a * b + a * c + b * c);
+            break;
         };
     };
 }
