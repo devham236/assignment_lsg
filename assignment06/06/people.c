@@ -23,7 +23,7 @@ typedef struct Statistics Statistics;
 
 //Returns substring of s from character i to character j
 String s_sub(String s, int i, int j) {
-    require_not_null(s);
+    require_not_null(s); // prüft ob s nicht null ist
     int n = strlen(s);
     if (i < 0) i = 0;
     if (j > n) j = n;
@@ -41,7 +41,7 @@ String s_sub(String s, int i, int j) {
 }
 
 
-Statistics make_statistics(void) {
+Statistics make_statistics(void) { // erstellt eine leeres Blatt
 	Statistics ps = { 0, 0, 0, 0, 0.0, 0.0, 0.0 };
 	return ps;
 }
@@ -65,10 +65,92 @@ Statistics compute_statistics(String table) {
 	
 	while (s_get(table, i) != '\n') i++; // skip first row
 	
-	// TODO
-	
-	return ps;
-}
+		int total_birth_year = 0;
+        double total_male_height = 0.0;
+        double total_female_height = 0.0;
+        double total_diverse_height = 0.0;
+        int total_male_name_length = 0;
+        int total_female_name_length = 0;
+        int total_diverse_name_length = 0;
+        int person_count = 0;
+
+        // Hauptschleife
+        while (i < n) {
+
+			// start der Zeile
+            int line_start = i;
+            int line_end = line_start;
+
+            // Ende der Zeile finden
+            while (line_end < n && s_get(table, line_end) != '\n') ++line_end;
+            String line = s_sub(table, line_start, line_end); // Zeile extrahieren
+            i = line_end + 1; // Nächste Zeile 
+
+            // Tabs in der Zeile finden
+			int first_tab = -1, second_tab = -1, third_tab = -1;
+            for (int j = 0; j < s_length(line); ++j) {
+                if (s_get(line, j) == '\t') {
+                    if (first_tab == -1) first_tab = j;
+                    else if (second_tab == -1) second_tab = j;
+                    else {
+                        third_tab = j;
+                        break;
+                    }
+                }
+            }
+
+            // Ignoriert falls keine 3 Tabs vorhanden sind
+            if (first_tab == -1 || second_tab == -1 || third_tab == -1) {
+                free(line);
+                continue;
+            }
+
+            // Felder aus der Zeile extrahieren
+            String birth_year_str = s_sub(line, 0, first_tab);
+            String gender = s_sub(line, first_tab + 1, second_tab); //+1 to move past tab
+            String height_str = s_sub(line, second_tab + 1, third_tab);
+            String name = s_sub(line, third_tab + 1, s_length(line));
+
+            // macht aus string int oder double
+            int birth_year = i_of_s(birth_year_str);
+            double height = d_of_s(height_str);
+
+            // zusammenzählen
+            total_birth_year += birth_year;
+            person_count++;
+
+            // werte zu geschlechtern
+            if (gender[0] == 'm') {
+                ps.number_males++;
+                total_male_height += height;
+                total_male_name_length += s_length(name);
+            } else if (gender[0] == 'f') {
+                ps.number_females++;
+                total_female_height += height;
+                total_female_name_length += s_length(name);
+            } else if (gender[0] == 'd') {
+                ps.number_diverse++;
+                total_diverse_height += height;
+                total_diverse_name_length += s_length(name);
+            }
+
+            // reservier Speicher
+            free(birth_year_str);
+            free(gender);
+            free(height_str);
+            free(name);
+            free(line);
+        }
+
+        // Durchschnittswerte
+        ps.mean_year = person_count > 0 ? total_birth_year / person_count : 0;
+        ps.mean_height_males = ps.number_males > 0 ? total_male_height / ps.number_males : 0.0;
+        ps.mean_height_females = ps.number_females > 0 ? total_female_height / ps.number_females : 0.0;
+        ps.mean_height_diverse = ps.number_diverse > 0 ? total_diverse_height / ps.number_diverse : 0.0;
+        ps.mean_length_of_names = person_count > 0 ? (double)(total_male_name_length + total_female_name_length + total_diverse_name_length) / person_count : 0.0;
+
+        return ps;
+    }
 
 
 int main(void) {
@@ -85,8 +167,8 @@ int main(void) {
 	number diverse: 100
 	mean height males: 1.79
 	mean height females: 1.64
-	mean height diverse: 1.61
-	mean length of names: 13.20
+	mean height diverse: 1.61 ?
+	mean length of names: 13.20 ?
 	*/
 	
 	return 0;
