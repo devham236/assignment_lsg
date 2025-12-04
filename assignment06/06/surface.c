@@ -99,6 +99,7 @@ double surface_area(GeomObject o) {
             break;
         };
     };
+    return 0.0;
 }
 
 void surface_area_test(void) {
