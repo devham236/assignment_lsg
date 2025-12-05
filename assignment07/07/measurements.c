@@ -1,11 +1,20 @@
 #include "base.h"
 
+typedef enum Tag {
+    TAge,
+    TTech,
+    TTime
+} Tag;
+
 typedef struct statistics_s {
     // todo
 } Statistics;
 
 Statistics make_statistics() {
     // todo
+    Statistics stats;
+
+    return stats;
 }
 
 void print_statistics(Statistics s) {
@@ -14,6 +23,9 @@ void print_statistics(Statistics s) {
 
 Statistics compute_statistics(String table) {
     // todo
+    Statistics stats;
+
+    return stats;
 }
 
 int main(void) {
