@@ -39,7 +39,6 @@ String encrypt(String input) {
         
     }
     
-    printf("%s\n", encryptedStr);
     return encryptedStr;
 }
 
