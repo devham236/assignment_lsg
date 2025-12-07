@@ -15,17 +15,22 @@ int index_of(String s, char c) {
     return -1;
 }
 
+/*
+Verschlüsselt den übergebenen String, basierend auf 'permutation' oben.
+@param String -> Input String der verschlüsselt wird
+@return -> Gibt einen verschlüsselten bzw. modifizierten String zurück
+*/
 String encrypt(String input) {
     // TODO
     int str_length = s_length(input);
     String encryptedStr = s_copy(input);
-    for (int i = 0; i < s_length(input); i++)
+    for (int i = 0; i < str_length; i++)
     {
         /* code */
-        int indexOf = index_of(alphabet, input[i]);
+        int indexOfChar = index_of(alphabet, input[i]);
 
-        if(indexOf != -1) {
-            s_set(encryptedStr, i, s_get(permutation, i));
+        if(indexOfChar != -1) {
+            s_set(encryptedStr, i, s_get(permutation, indexOfChar));
         }
         else {
             // do nothing
@@ -41,11 +46,25 @@ String encrypt(String input) {
 
 String decrypt(String input) {
     // TODO
-    return s_copy(input);
+    int str_length = s_length(input);
+    String decryptedStr = s_copy(input);
+
+    for (int i = 0; i < str_length; i++)
+    {
+        int indexOfChar = index_of(permutation, input[i]);
+        if (indexOfChar != -1) {
+            s_set(decryptedStr, i, s_get(alphabet, indexOfChar));
+        }
+        else {
+            /* code */
+        }
+    }
+    
+    return s_copy(decryptedStr);
 }
 
 void test_identity(String s) {
-    // assert("encrypted text must differ from input", !s_equals(s, encrypt(s)));
+    assert("encrypted text must differ from input", !s_equals(s, encrypt(s)));
     // test_equal_s(s, decrypt(encrypt(s)));
 }
 
@@ -56,5 +75,4 @@ int main(void) {
     test_identity("BE SURE TO DRINK YOUR OVALTINE");
     printsln("The secret text says:");
     printsln(decrypt("VNSKC DSYQ IU PHUABFQQ OFNLSZNBHXQFK QSJI RWFN MWNEZ GSTFNK."));
-    encrypt("HELLO WORLD");
 }
