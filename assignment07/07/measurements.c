@@ -42,8 +42,6 @@ Statistics compute_statistics(String table) {
     // todo
     Statistics stats;
 
-    printf("%s\n", table);
-
     return stats;
 }
 
