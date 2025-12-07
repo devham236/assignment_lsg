@@ -5,7 +5,8 @@ const String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int index_of(String s, char c) {
     // TODO
-    for (int i = 0; i < s_length(s); i++)
+    int str_length = s_length(s);
+    for (int i = 0; i < str_length; i++)
     {
         if(s[i] == c){
             return i;
@@ -39,7 +40,7 @@ String encrypt(String input) {
     }
     
     printf("%s\n", encryptedStr);
-    return s_copy(encryptedStr);
+    return encryptedStr;
 }
 
 
@@ -60,7 +61,7 @@ String decrypt(String input) {
         }
     }
     
-    return s_copy(decryptedStr);
+    return decryptedStr;
 }
 
 void test_identity(String s) {
