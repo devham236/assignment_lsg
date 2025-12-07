@@ -56,7 +56,7 @@ String decrypt(String input) {
             s_set(decryptedStr, i, s_get(alphabet, indexOfChar));
         }
         else {
-            /* code */
+            // do nothing
         }
     }
     
