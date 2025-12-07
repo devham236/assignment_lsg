@@ -1,16 +1,20 @@
 #include "base.h"
 
-typedef struct {
-    char mouse;
-    char touchscreen;
-    char keyboard;
+typedef enum {
+    m,
+    t,
+    k
 } Tech;
 
 typedef struct {
-    int age
+    Tech tech;
+} TechStruct;
+
+typedef struct Age{
+    int age;
 } Age;
 
-typedef struct {
+typedef struct Time{
     double time;
 } Time;
 
@@ -22,18 +26,19 @@ typedef enum {
 
 typedef struct statistics_s {
     // todo
-    union stats
-    {
-        Tech tech;
-        Age age;
-        Time time;
-    };
+    Tech tech;
+    Age age;
+    Time time;
     
 } Statistics;
 
 Statistics make_statistics() {
     // todo
     Statistics stats;
+
+    stats.tech = 0;
+    stats.age.age = 0;
+    stats.time.time = 0.0;
 
     return stats;
 }
