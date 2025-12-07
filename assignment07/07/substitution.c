@@ -27,11 +27,11 @@ String encrypt(String input) {
     String encryptedStr = s_copy(input);
     for (int i = 0; i < str_length; i++)
     {
-        /* code */
         int indexOfChar = index_of(alphabet, input[i]);
 
         if(indexOfChar != -1) {
-            s_set(encryptedStr, i, s_get(permutation, indexOfChar));
+            char matchingChar = s_get(permutation, indexOfChar);
+            s_set(encryptedStr, i, matchingChar);
         }
         else {
             // do nothing
@@ -53,7 +53,8 @@ String decrypt(String input) {
     {
         int indexOfChar = index_of(permutation, input[i]);
         if (indexOfChar != -1) {
-            s_set(decryptedStr, i, s_get(alphabet, indexOfChar));
+            char matchingChar = s_get(alphabet, indexOfChar);
+            s_set(decryptedStr, i, matchingChar);
         }
         else {
             // do nothing
