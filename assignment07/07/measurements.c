@@ -1,5 +1,19 @@
 #include "base.h"
 
+typedef struct Tech {
+    char mouse;
+    char touchscreen;
+    char keyboard;
+} Tech;
+
+typedef struct Age {
+    int age
+} Age;
+
+typedef struct Time {
+    double time;
+} Time;
+
 typedef enum Tag {
     TAge,
     TTech,
