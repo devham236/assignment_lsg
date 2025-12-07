@@ -33,11 +33,16 @@ Statistics make_statistics() {
 
 void print_statistics(Statistics s) {
     // todo
+    printf("Eingesetztes Gerät der Versuchsperson (Maus(m)/Touchscreen(t)/Tastatur(k)): %d\n", s.tech);
+    printf("Alter der Versuchsperson: %d\n", s.age);
+    printf("Benötigte Zeit um Eingabe zu tätigen: %.2f\n", s.time);
 }
 
 Statistics compute_statistics(String table) {
     // todo
     Statistics stats;
+
+    printf("%s\n", table);
 
     return stats;
 }
