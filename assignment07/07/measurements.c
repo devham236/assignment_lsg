@@ -6,18 +6,6 @@ typedef enum {
     k
 } Tech;
 
-typedef struct {
-    Tech tech;
-} TechStruct;
-
-typedef struct Age{
-    int age;
-} Age;
-
-typedef struct Time{
-    double time;
-} Time;
-
 typedef enum {
     TAge,
     TTech,
@@ -27,8 +15,8 @@ typedef enum {
 typedef struct statistics_s {
     // todo
     Tech tech;
-    Age age;
-    Time time;
+    int age;
+    double time;
     
 } Statistics;
 
@@ -37,8 +25,8 @@ Statistics make_statistics() {
     Statistics stats;
 
     stats.tech = 0;
-    stats.age.age = 0;
-    stats.time.time = 0.0;
+    stats.age = 0;
+    stats.time = 0.0;
 
     return stats;
 }
