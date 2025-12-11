@@ -62,7 +62,7 @@ Statistics compute_statistics(String table) {
     int count_m = 0;            //|        
     int count_t = 0;            //|
     int count_k = 0;            //|
-                                //} =====> Anzahl der Einträge für bestimmtes Gerät (count_m, count_t, count_k) und Summe der Zeiten
+                                //| =====> Anzahl der Einträge für bestimmtes Gerät (count_m, count_t, count_k) und Summe der Zeiten
     double sum_m = 0.0;         //|
     double sum_t = 0.0;         //|
     double sum_k = 0.0;         //|
