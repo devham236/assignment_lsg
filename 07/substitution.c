@@ -33,10 +33,6 @@ String encrypt(String input) {
             char matchingChar = s_get(permutation, indexOfChar);
             s_set(encryptedStr, i, matchingChar);
         }
-        else {
-            // do nothing
-        }
-        
     }
     
     return encryptedStr;
