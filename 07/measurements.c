@@ -21,7 +21,6 @@ String s_sub(String s, int i, int j) {
 typedef struct statistics_s {
     double age;
     double age_sd;
-
     double mean_m;
     double mean_t;
     double mean_k;
