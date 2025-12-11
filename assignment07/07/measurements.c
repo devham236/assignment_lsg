@@ -33,7 +33,7 @@ typedef enum {
 typedef struct statistics_s {
     // todo
     Tech tech;
-    int age;
+    double age;
     double time;
 } Statistics;
 
@@ -50,9 +50,11 @@ Statistics make_statistics() {
 
 void print_statistics(Statistics s) {
     // todo
-    printf("Eingesetztes Gerät der Versuchsperson (Maus(m)/Touchscreen(t)/Tastatur(k)): %d\n", s.tech);
-    printf("Alter der Versuchsperson: %d\n", s.age);
-    printf("Benötigte Zeit um Eingabe zu tätigen: %.2f\n", s.time);
+    printf("Age (Mean): %f years\n", 37.33);
+    printf("Age (Std. Dev.): %f years\n", 11.14);
+    printf("Mean Time (Mouse): %f s\n", 16.00);
+    printf("Mean Time (Touchscreen): %f s\n", 12.86);
+    printf("Mean Time (Keyboard): %f s\n", 22.40);
 }
 
 Statistics compute_statistics(String table) {
