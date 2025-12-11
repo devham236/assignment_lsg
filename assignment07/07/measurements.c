@@ -1,5 +1,23 @@
 #include "base.h"
 
+String s_sub(String s, int i, int j) {
+    require_not_null(s);
+    int n = strlen(s);
+    if (i < 0) i = 0;
+    if (j > n) j = n;
+    if (i >= j || i >= n || j <= 0) {
+        char *a = xmalloc(1 * sizeof(char));
+        a[0] = '\0';
+        return a;
+    }
+    // assert i < j && i < n && j > 0
+    n = j - i;
+    char *a = xmalloc((n + 1) * sizeof(char));
+    memcpy(a, s + i, n * sizeof(char));
+    a[n] = '\0';
+    return a;
+}
+
 typedef enum {
     m,
     t,
@@ -17,7 +35,6 @@ typedef struct statistics_s {
     Tech tech;
     int age;
     double time;
-    
 } Statistics;
 
 Statistics make_statistics() {
@@ -40,9 +57,6 @@ void print_statistics(Statistics s) {
 
 Statistics compute_statistics(String table) {
     // todo
-    Statistics stats;
-
-    return stats;
 }
 
 int main(void) {
@@ -50,4 +64,13 @@ int main(void) {
     Statistics statistics = compute_statistics(table);
     print_statistics(statistics);
     return 0;
+
+    /* 
+        Erwartete Ausgabe:
+        Age (Mean):                     37.33 years
+        Age (Std. Dev.):                11.14 years
+        Mean Time (Mouse):              16.00 s
+        Mean Time (Touchscreen):        12.86 s
+        Mean Time (Keyboard):           22.40 s
+    */
 }
