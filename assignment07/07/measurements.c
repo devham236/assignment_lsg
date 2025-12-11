@@ -50,42 +50,44 @@ void print_statistics(Statistics s) {
 
 Statistics compute_statistics(String table) {
     // todo
-    Statistics stats = make_statistics();
+    Statistics stats = make_statistics(); // leere 'Statistics' Struktur wo alle Elemente 0 sind.
 
     int len = s_length(table);
-    int pos = 0;
+    int pos = 0; // Wandert durch die gesamte Textdatei bzw. String
 
-    int count_total = 0;
-    double sum_age = 0.0;
-    double sum_age_sq = 0.0;
+    int count_total = 0; // Anzahl aller Datensätze
+    double sum_age = 0.0; // Summer aller Alterswerte
+    double sum_age_sq = 0.0; // Summe aller Quadrate um Standardabweichung zu benutzen
 
-    int count_m = 0;
-    int count_t = 0;
-    int count_k = 0;
-
-    double sum_m = 0.0;
-    double sum_t = 0.0;
-    double sum_k = 0.0;
+    int count_m = 0;            //|        
+    int count_t = 0;            //|
+    int count_k = 0;            //|
+                                //} =====> Anzahl der Einträge für bestimmtes Gerät (count_m, count_t, count_k) und Summe der Zeiten
+    double sum_m = 0.0;         //|
+    double sum_t = 0.0;         //|
+    double sum_k = 0.0;         //|
 
     while (pos < len) {
-
-        while (pos < len && s_get(table, pos) <= ' ') {
-            pos++;
-        }
-
-        if (pos >= len) {
+        if (pos >= len) { // Schleife wird beendet, wenn wir das Ende des Strings erreichen
             break;
         }
 
-        int start = pos;
+        // 76-87 überspringt Leerzeichen, speichert Startposition, liest Zeilen bis zum nächsten Leerzeichen, schneidet den Substring aus dem Text und wandelt den Substring in ein Int
+        while (pos < len && s_get(table, pos) <= ' ') {                 
+            pos++;                                                      
+        }                                                               
+        
+        int start = pos;                                                
 
-        while (pos < len && s_get(table, pos) > ' ') {
-            pos++;
-        }
+        while (pos < len && s_get(table, pos) > ' ') {                  
+            pos++;                                                      
+        }                                                               
 
-        String age_str = s_sub(table, start, pos);
-        int age = i_of_s(age_str);
+        String age_str = s_sub(table, start, pos);                      
+        int age = i_of_s(age_str);                                      
 
+
+        // 91-100 übersprint Leerzeichen, liest einzelnes Zeichen aus (m, t, k) um Gerätetyp zu lesen
         while (pos < len && s_get(table, pos) <= ' ') {
             pos++;
         }
@@ -97,6 +99,8 @@ Statistics compute_statistics(String table) {
         char device = s_get(table, pos);
         pos++;
 
+
+        // 104-115 Leerzeichen übersrpingen, Start merken, bis zum nächsten Leerzeichen lesen, Substring extrahieren und in double umwandeln um Zeitwert für Gerätetyp zu lesen
         while (pos < len && s_get(table, pos) <= ' ') {
             pos++;
         }
@@ -110,10 +114,14 @@ Statistics compute_statistics(String table) {
         String time_str = s_sub(table, start, pos);
         double time = d_of_s(time_str);
 
+
+        //119-121 Zählt alle Datensätze, sammelt alle Einträge für Alter um Summe zu berechnen, und macht dasselbe für die Quadrate um Standardabweichung
         count_total++;
         sum_age += age;
         sum_age_sq += (double)age * age;
 
+
+        //125-136 Überprüfen welcher Gerätetyp vorliegt und dann Counter für den Typen erhöhen und dann die Summe des Typen mit dem Zeitwert zu addieren. Braucht man später um Mittelwert von jedem gerätetyp zu berechnen
         if (device == 'm') {
             count_m++;
             sum_m += time;
@@ -128,6 +136,8 @@ Statistics compute_statistics(String table) {
         }
     }
 
+
+    // 141-153 Altersstatistik berechnen. Durchschnittsalter und Standardabweichung
     if (count_total > 0) {
         stats.age = sum_age / count_total;
 
@@ -142,6 +152,8 @@ Statistics compute_statistics(String table) {
         }
     }
 
+
+    // 157-176 Durschnittliche Zeit von Maus, Touchscreen und Tastatur berechnen, also Summe von Typ / Anzahl von Typ
     if (count_m > 0) {
         stats.mean_m = sum_m / count_m;
     }
