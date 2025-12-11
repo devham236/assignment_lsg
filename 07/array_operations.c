@@ -7,28 +7,82 @@ Compile & run: make array_operations && ./array_operations
 #include "base.h"
 
 typedef struct better_array_s {
+    int array[100];  // festes Array, kein Pointer
     int length;
-    int *array;
 } BetterArray;
 
-//todo: a)
+// a) Vergleich zweier Arrays
 bool compare(int *array_a, int length_a, int *array_b, int length_b) {
-    return false;
+    // Negative Längen sind ungültig
+    if (length_a < 0 || length_b < 0) return false;
+
+    // Beide NULL und Länge 0 → gleich
+    if (length_a == 0 && length_b == 0) return true;
+
+    if (length_a != length_b) return false;
+
+    for (int i = 0; i < length_a; i++) {
+        if (array_a[i] != array_b[i]) return false;
+    }
+    return true;
 }
 
-//todo: b)
+// b) Entferne negative Zahlen
 int remove_negatives(int* array, int length) {
-    return length;
+    int new_length = 0;
+    for (int i = 0; i < length; i++) {
+        if (array[i] >= 0) {
+            array[new_length++] = array[i];
+        }
+    }
+    return new_length;
 }
 
-//todo: c)
-BetterArray intersect(int *array_a, int length_a, int* array_b, int length_b) {
-    return (BetterArray) {};
+// c) Schnittmenge zweier Arrays
+BetterArray intersect(int *array_a, int length_a, int *array_b, int length_b) {
+    BetterArray result;
+    result.length = 0;
+
+    for (int i = 0; i < length_a; i++) {
+        int val = array_a[i];
+
+        // prüfen, ob val in array_b ist
+        bool in_b = false;
+        for (int j = 0; j < length_b; j++) {
+            if (array_b[j] == val) {
+                in_b = true;
+                break;
+            }
+        }
+        if (!in_b) continue;
+
+        // prüfen, ob val bereits im Ergebnis ist
+        bool exists = false;
+        for (int k = 0; k < result.length; k++) {
+            if (result.array[k] == val) {
+                exists = true;
+                break;
+            }
+        }
+
+        if (!exists) {
+            result.array[result.length++] = val;  // direkt in result kopieren
+        }
+    }
+
+    return result;
 }
 
-//todo: d)
+// d) Zwei sortierte Arrays zusammenführen
 void merge_sorted_arrays(int *array_a, int length_a, int* array_b, int length_b, int* result, int length_result) {
+    int i = 0, j = 0, k = 0;
 
+    while (i < length_a && j < length_b && k < length_result) {
+        if (array_a[i] <= array_b[j]) result[k++] = array_a[i++];
+        else result[k++] = array_b[j++];
+    }
+    while (i < length_a && k < length_result) result[k++] = array_a[i++];
+    while (j < length_b && k < length_result) result[k++] = array_b[j++];
 }
 
 void test_compare(){
