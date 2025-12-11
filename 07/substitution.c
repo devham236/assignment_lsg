@@ -52,9 +52,6 @@ String decrypt(String input) {
             char matchingChar = s_get(alphabet, indexOfChar);
             s_set(decryptedStr, i, matchingChar);
         }
-        else {
-            // do nothing
-        }
     }
     
     return decryptedStr;
