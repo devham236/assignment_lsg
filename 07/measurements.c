@@ -49,7 +49,7 @@ void print_statistics(Statistics s) {
 
 Statistics compute_statistics(String table) {
     // todo
-    Statistics stats = make_statistics(); // leere 'Statistics' Struktur wo alle Elemente 0 sind.
+    Statistics stats = make_statistics(); // leere 'Statistics' Struktur in der alle Elemente 0 sind.
 
     int len = s_length(table);
     int pos = 0; // Wandert durch die gesamte Textdatei bzw. String
