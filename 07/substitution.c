@@ -59,7 +59,7 @@ String decrypt(String input) {
 
 void test_identity(String s) {
     assert("encrypted text must differ from input", !s_equals(s, encrypt(s)));
-    // test_equal_s(s, decrypt(encrypt(s)));
+    test_equal_s(s, decrypt(encrypt(s)));
 }
 
 int main(void) {
