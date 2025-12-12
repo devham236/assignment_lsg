@@ -1,6 +1,4 @@
-# assignment_lsg
-
-## Explanations
+# Explanations
 
 ### Structs
 - Mit structs kannst du einen zusammengesetzten Datentyp erstellen, der mehrere Werte nebeneinander speichert.
