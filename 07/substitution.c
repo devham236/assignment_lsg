@@ -24,18 +24,18 @@ Verschlüsselt den übergebenen String, basierend auf 'permutation' oben.
 String encrypt(String input) {
     // TODO
     int str_length = s_length(input);
-    String encryptedStr = s_copy(input);
+    String encrypted_str = s_copy(input);
     for (int i = 0; i < str_length; i++)
     {
-        int indexOfChar = index_of(alphabet, input[i]);
+        int index_of_char = index_of(alphabet, input[i]);
 
-        if(indexOfChar != -1) {
-            char matchingChar = s_get(permutation, indexOfChar);
-            s_set(encryptedStr, i, matchingChar);
+        if(index_of_char != -1) {
+            char matching_char = s_get(permutation, index_of_char);
+            s_set(encrypted_str, i, matching_char);
         }
     }
     
-    return encryptedStr;
+    return encrypted_str;
 }
 
 
@@ -43,18 +43,18 @@ String encrypt(String input) {
 String decrypt(String input) {
     // TODO
     int str_length = s_length(input);
-    String decryptedStr = s_copy(input);
+    String decrypted_str = s_copy(input);
 
     for (int i = 0; i < str_length; i++)
     {
-        int indexOfChar = index_of(permutation, input[i]);
-        if (indexOfChar != -1) {
-            char matchingChar = s_get(alphabet, indexOfChar);
-            s_set(decryptedStr, i, matchingChar);
+        int index_of_char = index_of(permutation, input[i]);
+        if (index_of_char != -1) {
+            char matching_char = s_get(alphabet, index_of_char);
+            s_set(decrypted_str, i, matching_char);
         }
     }
     
-    return decryptedStr;
+    return decrypted_str;
 }
 
 void test_identity(String s) {
