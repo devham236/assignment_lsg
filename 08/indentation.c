@@ -12,22 +12,42 @@ int indentation(char * s) {
     for (int i = 0; s[i] != '\0'; i++)
     {
         if(s[i] == '\t') return -1;
-        if (s[i] != ' ') return count;
+        if(s[i] != ' ') return count;
         count++;
     }
     return count;
 }
 
-char * left_trim(char * s) {
+/*
+In dieser funktion, sagst du mit der Deklaration vom Pointer p, das alle Leerzeichen überspringen werden sollen und erst beim ersten nicht Leerzeichen character der string gelesen werden soll.
+Vergiss nicht, strings sind character arrays
+-> [' ', ' ', ' ', 'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd']
+*/
+char * left_trim(char * s) { // s zeigt auf den ersten character des übergebenen strings
     require_not_null(s);
-    // todo
-    return s;
+    char *p = s; // p zeigt auf dasselbe, also den ersten character des strings
+
+    while(*p == ' ' || *p == '\t'){
+        if(*p == '\t') return "";
+        p++;
+    }
+
+    return p; // originaler string wird nicht verändert, es wird nur der Teil zurückgegeben ab dem p zum ersten mal auf ein nicht Leerzeichen (einen Buchstaben) trifft. Bei "   Hello World   " zum Beispiel, überspringt er die Leerzeichen, bedeutet der while loop läuft weil die Bedingung gilt. Wenn *p jetzt == 'H' ist, wird der while loop übersrpungen und p wird zurück gegeben, also der gesamte string ab dem ersten nicht Leerzeichen -> "Hello World   " 
 }
 
 char * extract_comment(char * s) {
     require_not_null(s);
     // todo
     return s;
+}
+
+void left_trim_test(void) {
+    test_equal_s(left_trim("   sample  "), "sample  ");
+    test_equal_s(left_trim("Hello World"), "Hello World");
+    test_equal_s(left_trim("    hello"), "hello");
+    test_equal_s(left_trim("  Hello World"), "Hello World");
+    test_equal_s(left_trim("\t\tHello"), ""); // error
+    test_equal_s(left_trim("    \tHello"), ""); // error
 }
 
 void indentation_test(void) {
@@ -56,14 +76,7 @@ void indentation_test(void) {
     test_equal_i(indentation("    hello \t "), 4);
 }
 
-void left_trim_test(void) {
-    test_equal_s(left_trim("   sample  "), "sample  ");
-    test_equal_s(left_trim("Hello World"), "Hello World");
-    test_equal_s(left_trim("    hello"), "hello");
-    test_equal_s(left_trim("  Hello World"), "Hello World");
-    test_equal_s(left_trim("\t\tHello"), ""); // error
-    test_equal_s(left_trim("    \tHello"), ""); // error
-}
+
 
 void extract_comment_test(void) {
     test_equal_s(extract_comment("int i = 4/2;"), "");
@@ -76,8 +89,8 @@ void extract_comment_test(void) {
 }
 
 int main(void) {
-    indentation_test();
-    // left_trim_test();
+    // indentation_test();
+    left_trim_test();
     // extract_comment_test();
     return 0;
 }
