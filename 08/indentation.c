@@ -27,18 +27,35 @@ char * left_trim(char * s) { // s zeigt auf den ersten character des übergebene
     require_not_null(s);
     char *p = s; // p zeigt auf dasselbe, also den ersten character des strings
 
-    while(*p == ' ' || *p == '\t'){
+    while(*p == ' ' || *p == '\t' || *p == '/'){
         if(*p == '\t') return "";
         p++;
     }
 
-    return p; // originaler string wird nicht verändert, es wird nur der Teil zurückgegeben ab dem p zum ersten mal auf ein nicht Leerzeichen (einen Buchstaben) trifft. Bei "   Hello World   " zum Beispiel, überspringt er die Leerzeichen, bedeutet der while loop läuft weil die Bedingung gilt. Wenn *p jetzt == 'H' ist, wird der while loop übersrpungen und p wird zurück gegeben, also der gesamte string ab dem ersten nicht Leerzeichen -> "Hello World   " 
+    return p; // originaler string wird nicht verändert, es wird nur der Teil zurückgegeben an dem p zum ersten mal auf ein nicht Leerzeichen (einen Buchstaben) trifft. Bei ("   Hello World   ") zum Beispiel, überspringt er die Leerzeichen, bedeutet der while loop läuft weil die Bedingung gilt. Wenn *p jetzt == 'H' ist, wird der while loop übersrpungen und p wird zurück gegeben, also der gesamte string ab dem ersten nicht Leerzeichen -> "Hello World   " 
 }
 
 char * extract_comment(char * s) {
     require_not_null(s);
     // todo
-    return s;
+    char *p = s;
+
+    while(*p != '/' && *(p + 1) != '/'){
+        if(*p == '\0') return "";
+        p++;
+    }
+
+    return left_trim(p);
+}
+
+void extract_comment_test(void) {
+    test_equal_s(extract_comment("int i = 4/2;"), "");
+    test_equal_s(extract_comment("int i = 0; // a new integer"), "a new integer");
+    test_equal_s(extract_comment("   double f = 0.0; //   a new double"), "a new double");
+    test_equal_s(extract_comment("  bool b = false; //a new bool"), "a new bool");
+    test_equal_s(extract_comment("  bool b = false; //a new bool  "), "a new bool  ");
+    test_equal_s(extract_comment("  bool b = false; //"), "");
+    test_equal_s(extract_comment("int i = 0;"), "");
 }
 
 void left_trim_test(void) {
@@ -78,19 +95,11 @@ void indentation_test(void) {
 
 
 
-void extract_comment_test(void) {
-    test_equal_s(extract_comment("int i = 4/2;"), "");
-    test_equal_s(extract_comment("int i = 0; // a new integer"), "a new integer");
-    test_equal_s(extract_comment("   double f = 0.0; //   a new double"), "a new double");
-    test_equal_s(extract_comment("  bool b = false; //a new bool"), "a new bool");
-    test_equal_s(extract_comment("  bool b = false; //a new bool  "), "a new bool  ");
-    test_equal_s(extract_comment("  bool b = false; //"), "");
-    test_equal_s(extract_comment("int i = 0;"), "");
-}
+
 
 int main(void) {
     // indentation_test();
-    left_trim_test();
-    // extract_comment_test();
+    // left_trim_test();
+    extract_comment_test();
     return 0;
 }
