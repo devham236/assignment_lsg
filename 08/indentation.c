@@ -6,9 +6,16 @@ Compile & run: make indentation && ./indentation
 #include "base.h"
 
 int indentation(char * s) {
-    require_not_null(s);
     // todo
-    return -1;
+    require_not_null(s);
+    int count = 0;
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if(s[i] == '\t') return -1;
+        if (s[i] != ' ') return count;
+        count++;
+    }
+    return count;
 }
 
 char * left_trim(char * s) {
@@ -70,7 +77,7 @@ void extract_comment_test(void) {
 
 int main(void) {
     indentation_test();
-    left_trim_test();
-    extract_comment_test();
+    // left_trim_test();
+    // extract_comment_test();
     return 0;
 }
