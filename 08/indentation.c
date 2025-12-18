@@ -27,7 +27,7 @@ char * left_trim(char * s) { // s zeigt auf den ersten character des übergebene
     require_not_null(s);
     char *p = s; // p zeigt auf dasselbe, also den ersten character des strings
 
-    while(*p == ' ' || *p == '\t' || *p == '/'){
+    while(*p == ' ' || *p == '\t'){
         if(*p == '\t') return "";
         p++;
     }
@@ -37,15 +37,16 @@ char * left_trim(char * s) { // s zeigt auf den ersten character des übergebene
 
 char * extract_comment(char * s) {
     require_not_null(s);
-    // todo
     char *p = s;
 
-    while(*p != '/' && *(p + 1) != '/'){
-        if(*p == '\0') return "";
+    while (*p != '\0') {
+        if (*p == '/' && *(p + 1) == '/') {
+            return left_trim(p + 2);
+        }
         p++;
     }
 
-    return left_trim(p);
+    return "";
 }
 
 void extract_comment_test(void) {
