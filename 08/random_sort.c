@@ -129,31 +129,44 @@ bool sorted(Car* a, int length){
 
 // (d,e) TODO: implement random_sort function
 int random_sort(Car* a, int length){
-	return 0;
+	int swap = 0;
+	while(!sorted(a, length)){
+		int rand_1 = i_rnd(length);
+		int rand_2 = i_rnd(length);
+
+		if(rand_1 == rand_2){
+			continue;
+		}
+
+		Car copy = a[rand_1];
+		a[rand_1] = a[rand_2];
+		a[rand_2] = copy;
+		swap++;
+	}
+	return swap;
 }
 
 
 int main(void) {
 	
 	// (b) TODO: test compare function
-	
+	compare_test();
 	
 	
 	//some output
-	// int number_of_random_cars = 10;
-	// Car* car_park = create_car_park(number_of_random_cars);
-	// print_car_array(car_park, number_of_random_cars);
+	int number_of_random_cars = 10;
+	Car* car_park = create_car_park(number_of_random_cars);
+	print_car_array(car_park, number_of_random_cars);
 	
-	// printf("Sorting...\n");
+	printf("Sorting...\n");
 	
 	//TODO: sort the car_park array.
+	random_sort(car_park, 10);
 	
 	
-	// print_car_array(car_park, number_of_random_cars);
+	print_car_array(car_park, number_of_random_cars);
 	
-	// delete_car_park(car_park);
-
-	compare_test();
+	delete_car_park(car_park);
 
     return 0;
 }
