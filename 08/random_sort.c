@@ -74,12 +74,74 @@ void delete_car_park(Car* cars){
 
 // (a) TODO: implement compare function
 int compare(Car car1, Car car2){
+	printf("---------------------------------------------------------\n");
+	printf("car1 brand: %s, car2 brand: %s\n", car1.brand, car2.brand);
+	// return 1 wenn car1 jünger als car2 ist
+	if(car1.year > car2.year) {
+		return 1;
+	}
+	// return -1 wenn car1 älter als car2 ist
+	else if(car1.year < car2.year) {
+		return -1;
+	}
+	// wenn car1 und car2 gleich alt sind, dann Marke überprüfen mit int strcmp(char* str1, char* str2)
+	else if(car1.year == car2.year) {
+		int result = strcmp(car1.brand, car2.brand);
+		return result > 0 ? 1 :
+			   result < 0 ? -1 : 
+			   result == 0 ? 0 :
+			   0;
+	}
 	return 0;
 }
 
 // (b) TODO: write compare test function
 void compare_test(void){
+	Car car1 = {
+		car1.brand = brands[0],
+		car1.year = 1950,
+		car1.km = 100000,
+		car1.price = 10000.00,
+	};
 
+	Car car2 = {
+		car2.brand = brands[1],
+		car2.year = 1960,
+		car2.km = 100000,
+		car2.price = 10000.00,
+	};
+
+	Car car3 = {
+		car1.brand = brands[2],
+		car1.year = 1970,
+		car1.km = 100000,
+		car1.price = 10000.00,
+	};
+
+	Car car4 = {
+		car2.brand = brands[3],
+		car2.year = 1980,
+		car2.km = 100000,
+		car2.price = 10000.00,
+	};
+
+	Car car5= {
+		car1.brand = brands[4],
+		car1.year = 1990,
+		car1.km = 100000,
+		car1.price = 10000.00,
+	};
+
+	Car car6 = {
+		car2.brand = brands[5],
+		car2.year = 1990,
+		car2.km = 100000,
+		car2.price = 10000.00,
+	};
+
+	test_equal_i(compare(car1, car2), 1);
+	test_equal_i(compare(car4, car3), 1);
+	test_equal_i(compare(car5, car6), 1);
 }
 
 // (c) TODO: implement sorted function
@@ -100,18 +162,20 @@ int main(void) {
 	
 	
 	//some output
-	int number_of_random_cars = 10;
-	Car* car_park = create_car_park(number_of_random_cars);
-	print_car_array(car_park, number_of_random_cars);
+	// int number_of_random_cars = 10;
+	// Car* car_park = create_car_park(number_of_random_cars);
+	// print_car_array(car_park, number_of_random_cars);
 	
-	printf("Sorting...\n");
+	// printf("Sorting...\n");
 	
 	//TODO: sort the car_park array.
 	
 	
-	print_car_array(car_park, number_of_random_cars);
+	// print_car_array(car_park, number_of_random_cars);
 	
-	delete_car_park(car_park);
+	// delete_car_park(car_park);
+
+	compare_test();
 
     return 0;
 }
