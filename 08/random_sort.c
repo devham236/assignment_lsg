@@ -73,30 +73,100 @@ void delete_car_park(Car* cars){
 //end of template code
 
 // (a) TODO: implement compare function
-int compare(Car car1, Car car2){
+int compare(const Car* car1, const Car* car2){
+	// Wenn car1 jünger ist als car2
+	if(car1->year > car2->year){
+		return 1;
+	}
+	// Wenn car1 älter ist als car2
+	if(car1->year < car2->year){
+		return -1;
+	}
+
+	int result = strcmp(car1->brand, car2->brand);
+	if(result > 0) return 1;
+	if(result < 0) return -1;
+
 	return 0;
+	
 }
 
 // (b) TODO: write compare test function
 void compare_test(void){
+	Car car1 = {"VW", 1950};
+	Car car2 = {"VW", 2000};
+	test_equal_i(compare(&car1, &car2), -1);
+	test_equal_i(compare(&car2, &car1), 1);
 
+	Car car3 = {"Audi", 1990};
+	Car car4 = {"BMW", 1990};
+	test_equal_i(compare(&car3, &car4), -1);
+	test_equal_i(compare(&car4, &car3), 1);
+
+	Car car5 = {"Ford", 1960};
+	Car car6 = {"Ford", 1960};
+	test_equal_i(compare(&car5, &car6), 0);
+	test_equal_i(compare(&car6, &car5), 0);
+	
+	
 }
 
 // (c) TODO: implement sorted function
-bool sorted(Car* a, int length){
-	return false;
+bool sorted(Car* a, int length){	
+	// du willst immer paarweise vergleichen (zu Beginn das erste und zweite, dann das zweite und dritte usw.), deswegen gehst du nur bis zum vorletzten Element (i < length - 1)
+	for(int i = 0; i < length - 1; i++){
+		int result = compare(a+i, a+i+1);
+
+		// Sobald result größer als 1 ist (das vorherige Element ist größer als das nächste => [2000, 1950]) wird abgebrochen
+		if(result > 0){
+			return false;
+		}
+
+	}
+	// Wird das array ein mal komplett durchlaufen ohne ein false wiederzugeben, ist das array sortiert, also wird ein true wiedergegeben:
+	return true;
 }
 
 // (d,e) TODO: implement random_sort function
 int random_sort(Car* a, int length){
-	return 0;
+	int swap = 0;
+	while(!sorted(a, length)){
+		int rand_1 = i_rnd(length);
+		int rand_2 = i_rnd(length);
+
+		if(rand_1 == rand_2){
+			continue;
+		}
+
+		Car copy = a[rand_1];
+		a[rand_1] = a[rand_2];
+		a[rand_2] = copy;
+		swap++;
+	}
+	printf("times swapped: %d\n", swap);
+	return swap;
 }
+
+/*
+e)
+Die Variable swaps zählt, wie oft in random_sort zwei Elemente vertauscht wurden.
+Nach jedem Tausch wird die Funktion sorted() erneut aufgerufen, welche im Worst Case
+(length - 1) Aufrufe der compare()-Funktion durchführt.
+
+Damit hängt die Anzahl der compare()-Aufrufe direkt von der Anzahl der swaps ab.
+Im Worst Case gilt:
+
+    compare_calls ≈ swaps * (length - 1)
+
+Je größer die Anzahl der swaps ist, desto häufiger wird compare() aufgerufen und
+desto ineffizienter ist der Algorithmus.
+*/
 
 
 int main(void) {
 	
 	// (b) TODO: test compare function
-	
+	compare_test();
 	
 	
 	//some output
@@ -107,6 +177,7 @@ int main(void) {
 	printf("Sorting...\n");
 	
 	//TODO: sort the car_park array.
+	random_sort(car_park, 10);
 	
 	
 	print_car_array(car_park, number_of_random_cars);
