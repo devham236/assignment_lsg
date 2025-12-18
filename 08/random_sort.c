@@ -177,7 +177,7 @@ int main(void) {
 	printf("Sorting...\n");
 	
 	//TODO: sort the car_park array.
-	random_sort(car_park, 10);
+	random_sort(car_park, number_of_random_cars);
 	
 	
 	print_car_array(car_park, number_of_random_cars);
