@@ -74,9 +74,11 @@ void delete_car_park(Car* cars){
 
 // (a) TODO: implement compare function
 int compare(const Car* car1, const Car* car2){
+	// Wenn car1 jünger ist als car2
 	if(car1->year > car2->year){
 		return 1;
 	}
+	// Wenn car1 älter ist als car2
 	if(car1->year < car2->year){
 		return -1;
 	}
@@ -110,8 +112,19 @@ void compare_test(void){
 }
 
 // (c) TODO: implement sorted function
-bool sorted(Car* a, int length){
-	return false;
+bool sorted(Car* a, int length){	
+	// du willst immer paarweise vergleichen (zu Beginn das erste und zweite, dann das zweite und dritte usw.), deswegen gehst du nur bis zum vorletzten Element (i < length - 1)
+	for(int i = 0; i < length - 1; i++){
+		int result = compare(a+i, a+i+1);
+
+		// Sobald result größer als 1 ist (das vorherige Element ist größer als das nächste => [2000, 1950]) wird abgebrochen
+		if(result > 0){
+			return false;
+		}
+
+	}
+	// Wird das array ein mal komplett durchlaufen ohne ein false wiederzugeben, ist das array sortiert, also wird ein true wiedergegeben:
+	return true;
 }
 
 // (d,e) TODO: implement random_sort function
