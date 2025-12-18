@@ -143,8 +143,24 @@ int random_sort(Car* a, int length){
 		a[rand_2] = copy;
 		swap++;
 	}
+	printf("times swapped: %d\n", swap);
 	return swap;
 }
+
+/*
+e)
+Die Variable swaps zählt, wie oft in random_sort zwei Elemente vertauscht wurden.
+Nach jedem Tausch wird die Funktion sorted() erneut aufgerufen, welche im Worst Case
+(length - 1) Aufrufe der compare()-Funktion durchführt.
+
+Damit hängt die Anzahl der compare()-Aufrufe direkt von der Anzahl der swaps ab.
+Im Worst Case gilt:
+
+    compare_calls ≈ swaps * (length - 1)
+
+Je größer die Anzahl der swaps ist, desto häufiger wird compare() aufgerufen und
+desto ineffizienter ist der Algorithmus.
+*/
 
 
 int main(void) {
