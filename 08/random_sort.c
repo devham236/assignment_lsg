@@ -73,75 +73,40 @@ void delete_car_park(Car* cars){
 //end of template code
 
 // (a) TODO: implement compare function
-int compare(Car car1, Car car2){
-	printf("---------------------------------------------------------\n");
-	printf("car1 brand: %s, car2 brand: %s\n", car1.brand, car2.brand);
-	// return 1 wenn car1 jünger als car2 ist
-	if(car1.year > car2.year) {
+int compare(const Car* car1, const Car* car2){
+	if(car1->year > car2->year){
 		return 1;
 	}
-	// return -1 wenn car1 älter als car2 ist
-	else if(car1.year < car2.year) {
+	if(car1->year < car2->year){
 		return -1;
 	}
-	// wenn car1 und car2 gleich alt sind, dann Marke überprüfen mit int strcmp(char* str1, char* str2)
-	else if(car1.year == car2.year) {
-		int result = strcmp(car1.brand, car2.brand);
-		return result > 0 ? 1 :
-			   result < 0 ? -1 : 
-			   result == 0 ? 0 :
-			   0;
-	}
+
+	int result = strcmp(car1->brand, car2->brand);
+	if(result > 0) return 1;
+	if(result < 0) return -1;
+
 	return 0;
+	
 }
 
 // (b) TODO: write compare test function
 void compare_test(void){
-	Car car1 = {
-		car1.brand = brands[0],
-		car1.year = 1950,
-		car1.km = 100000,
-		car1.price = 10000.00,
-	};
+	Car car1 = {"VW", 1950};
+	Car car2 = {"VW", 2000};
+	test_equal_i(compare(&car1, &car2), -1);
+	test_equal_i(compare(&car2, &car1), 1);
 
-	Car car2 = {
-		car2.brand = brands[1],
-		car2.year = 1960,
-		car2.km = 100000,
-		car2.price = 10000.00,
-	};
+	Car car3 = {"Audi", 1990};
+	Car car4 = {"BMW", 1990};
+	test_equal_i(compare(&car3, &car4), -1);
+	test_equal_i(compare(&car4, &car3), 1);
 
-	Car car3 = {
-		car1.brand = brands[2],
-		car1.year = 1970,
-		car1.km = 100000,
-		car1.price = 10000.00,
-	};
-
-	Car car4 = {
-		car2.brand = brands[3],
-		car2.year = 1980,
-		car2.km = 100000,
-		car2.price = 10000.00,
-	};
-
-	Car car5= {
-		car1.brand = brands[4],
-		car1.year = 1990,
-		car1.km = 100000,
-		car1.price = 10000.00,
-	};
-
-	Car car6 = {
-		car2.brand = brands[5],
-		car2.year = 1990,
-		car2.km = 100000,
-		car2.price = 10000.00,
-	};
-
-	test_equal_i(compare(car1, car2), 1);
-	test_equal_i(compare(car4, car3), 1);
-	test_equal_i(compare(car5, car6), 1);
+	Car car5 = {"Ford", 1960};
+	Car car6 = {"Ford", 1960};
+	test_equal_i(compare(&car5, &car6), 0);
+	test_equal_i(compare(&car6, &car5), 0);
+	
+	
 }
 
 // (c) TODO: implement sorted function
