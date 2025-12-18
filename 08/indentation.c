@@ -99,8 +99,8 @@ void indentation_test(void) {
 
 
 int main(void) {
-    // indentation_test();
-    // left_trim_test();
+    indentation_test();
+    left_trim_test();
     extract_comment_test();
     return 0;
 }
