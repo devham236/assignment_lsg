@@ -45,6 +45,15 @@ void println_list(Node* list) {
 void free_list(Node* list) {
     // TODO: 3a)
     // (there will be memory leaks if this function is not yet implemented)
+    if (list == NULL) return;
+    
+    Node* n = list;
+    while (n != NULL) {
+        Node* nextPointer = n->next;
+        free(n->value);
+        free(n);
+        n = nextPointer;
+    }
 }
 
 
@@ -107,6 +116,16 @@ int length_list(Node* list);
 // Example calls for length_list (below).
 void length_list_test(void) {
     // TODO: 3c)
+    Node* list = NULL;
+    test_equal_i(length_list(list), 0);
+
+    list = new_node("hello", NULL);
+    test_equal_i(length_list(list), 1);
+    free_list(list);
+
+    list = new_node("first", new_node("second", NULL));
+    test_equal_i(length_list(list), 2);
+    free_list(list);
 }
 
 // Number of elements of the list.
@@ -121,11 +140,27 @@ int index_list(Node* list, String s);
 // Example calls for index_list (below).
 void index_list_test(void) {
     // TODO: 3d)
+    Node* list = new_node("first", new_node("second", new_node("third", NULL)));
+    test_equal_i(index_list(list, "first"), 0);
+    test_equal_i(index_list(list, "second"), 1);
+    test_equal_i(index_list(list, "third"), 2);
+    free_list(list);
 }
 
 // Return index of s in list, or -1 if s is not in list.
 int index_list(Node* list, String s) {
     // TODO: 3d)
+    if (s == NULL) return -1;
+    Node* n = list;
+    int index = 0;
+
+    while (n != NULL) {
+        if (s_equals(n->value, s)) {
+            return index;
+        }
+        index++;
+        n = n->next;
+    }
     return -1;
 }
 
@@ -139,11 +174,54 @@ Node* remove_list(Node* list, int index);
 // Example calls for remove_list (below).
 void remove_list_test(void) {
     // TODO: 3e)
+    Node* list = new_node("first", new_node("second", new_node("third", NULL)));
+    Node* list_removed = new_node("first", new_node("third", NULL));
+    test_equal_lists(__LINE__, remove_list(list, 1), list_removed);  
+    free_list(list); free_list(list_removed);
+
+    list = new_node("first", new_node("second", new_node("third", NULL)));
+    list_removed = new_node("first", new_node("second", NULL));
+    test_equal_lists(__LINE__, remove_list(list, 2), list_removed);
+    free_list(list); free_list(list_removed);
+
+    list = NULL;
+    test_equal_lists(__LINE__, remove_list(list, 0), NULL);
+    free_list(list);
+
+    list = new_node("first", new_node("second", new_node("third", NULL)));
+    Node* new_list = remove_list(list, 0);
+    list_removed = new_node("second", new_node("third", NULL));
+    test_equal_lists(__LINE__, new_list, list_removed);
+    free_list(new_list); free_list(list_removed);
 }
 
 // Remove element at position index from list. The element at index has to be deleted.
 Node* remove_list(Node* list, int index) {
     // TODO: 3e)
+    if (list == NULL) return NULL;
+    require("index nicht außerhalb von list", index < length_list(list));
+    require("index >= 0", index >= 0);
+    Node* n = list;
+    ensure_code(int list_len_old = length_list(list));
+
+    if (index == 0) {
+        Node* m = n->next;
+        free(n->value);
+        free(n);
+        ensure("neue Listenlänge = alte Listenlänge - 1", length_list(m) == list_len_old - 1);
+        return m;
+    }
+    
+    for (int i = 0; i < index - 1; i++) {
+        n = n->next;
+    }
+    Node* element_before_index = n;
+    n = n->next;
+    element_before_index->next = n->next;
+    free(n->value);
+    free(n);
+
+    ensure("neue Listenlänge = alte Listenlänge - 1", length_list(list) == list_len_old - 1);
     return list;
 }
 
