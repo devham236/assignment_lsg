@@ -129,7 +129,7 @@ bool test_equal_lists(int line, Node* list1, Node* list2) {
         printf("Line %i: list1 is longer than list2.\n", line);
         return false;
     }
-    
+
     printf("Line %i: The lists are equal.\n", line);
     return true;
 }
@@ -294,25 +294,101 @@ void finish_puzzle(Puzzle* p) {
 }
 
 void evaluate_puzzle(Puzzle* p) {
-    // TODO: 2a)
+    // TODO: 4a)
+    // Wenn alle drei (Wolf, Ziege, Kohlkopf) am rechten Ufer sind, wird das Spiel beendet (Speicher aller belegten nodes wird freigegeben).
+    if (length_list(p->right) == 3) {
+        printsln("Aufgabe gelöst!");
+        finish_puzzle(p);
+    }
+
+    // Hier bestimmen wir welches Ufer leer ist, abhängig davon wo der Bauer steht
+    Node* emptyShore;
+    if (p->position == LEFT) {
+        emptyShore = p->right;
+    } else {
+        emptyShore = p->left;
+    }
+
+    // Wolf und Ziege alleine
+    if (contains_list(emptyShore, "Wolf") && contains_list(emptyShore, "Ziege")) {
+        printsln("Aufgabe beendet! Der Wolf hat die Ziege gefressen.");
+        finish_puzzle(p);
+    }
+
+    // Ziege und Kohl alleine
+    if (contains_list(emptyShore, "Ziege") && contains_list(emptyShore, "Kohl")) {
+        printsln("Aufgabe beendet! Die Ziege hat den Kohlkopf gefressen.");
+        finish_puzzle(p);
+    }
 }
 
 void play_puzzle(Puzzle* p) {
-    print_puzzle(p);
-    // TODO: 2b)
+    while (true) {
+        print_puzzle(p);
+        prints("Eingabe (w(wolf), g(goat), k(kale) l(left), r(right), q(quit)): ");
+
+        String input = s_input(100);   // dynamisch allokiert
+        if (input == NULL) continue;
+
+        // Spiel beenden
+        if (strcmp(input, "q") == 0) {
+            free(input);
+            finish_puzzle(p);
+        }
+
+        // Boot bewegen
+        else if (strcmp(input, "l") == 0) {
+            p->position = LEFT;
+        }
+        else if (strcmp(input, "r") == 0) {
+            p->position = RIGHT;
+        }
+
+        // Objektbewegung
+        else {
+            String object = NULL;
+
+            if (strcmp(input, "w") == 0 || strcmp(input, "wolf") == 0)
+                object = "Wolf";
+            else if (strcmp(input, "g") == 0 || strcmp(input, "goat") == 0)
+                object = "Ziege";
+            else if (strcmp(input, "k") == 0 || strcmp(input, "kale") == 0)
+                object = "Kohl";
+
+            if (object != NULL) {
+                // Ufer bestimmen, an dem sich das Boot (Bauer) befindet
+                Node** shore = (p->position == LEFT) ? &p->left : &p->right;
+
+                // Objekt aus dem Boot holen
+                if (p->boat != NULL && strcmp(p->boat->value, object) == 0) {
+                    p->boat = remove_list(p->boat, 0);
+                    *shore = new_node(object, *shore);
+                }
+                // Objekt ins Boot legen
+                else if (p->boat == NULL && contains_list(*shore, object)) {
+                    int idx = index_list(*shore, object);
+                    *shore = remove_list(*shore, idx);
+                    p->boat = new_node(object, NULL);
+                }
+            }
+        }
+
+        free(input);
+        evaluate_puzzle(p);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////
 
 int main(void) {
-    report_memory_leaks(true);  // TODO: 2c)
+    report_memory_leaks(true);  // TODO: 4c)
 
     test_equal_lists_test();
     length_list_test();
     index_list_test();
     remove_list_test();
     
-    // Puzzle p = make_puzzle();
-    // play_puzzle(&p);
+    Puzzle p = make_puzzle();
+    play_puzzle(&p);
     return 0;
 }
