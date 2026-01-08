@@ -108,7 +108,30 @@ void test_equal_lists_test(void) {
 // Checking whether two string lists are equal.
 bool test_equal_lists(int line, Node* list1, Node* list2) {
     // TODO: 3b)
-    return false;
+    Node* n = list1;
+    Node* m = list2;
+    int list1_len = 1;
+
+    while (n != NULL && m != NULL) {
+        if (!s_equals(n->value, m->value)) {
+            printf("Line %i: The values at node %i differ: %s <-> %s.\n", line, list1_len, n->value, m->value);
+            return false;
+        }
+        n = n->next;
+        m = m->next;
+        list1_len++;
+    }
+
+    if (n == NULL && m != NULL) {
+        printf("Line %i: list1 is shorter than list2.\n", line);
+        return false;
+    } else if (n != NULL && m == NULL) {
+        printf("Line %i: list1 is longer than list2.\n", line);
+        return false;
+    }
+    
+    printf("Line %i: The lists are equal.\n", line);
+    return true;
 }
 
 int length_list(Node* list);
