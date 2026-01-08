@@ -5,27 +5,70 @@
 */
 
 #include "base.h"
+#include "stdlib.h"
 
-typedef struct dynamic_stack_s {
-    // TODO: a)
+typedef struct DynamicStack {
+    int* data;        // Zeiger des Stacks
+    int size;         // Aktuelle Größe des Stacks
+    int capacity;     // Kapazität des Stacks
 } DynamicStack;
 
-DynamicStack* stack_new() {
-    // TODO: b)
-    return NULL;
+DynamicStack* stack_new(void) {
+    // Wir initialisieren einen neuen Stack der leer ist und keine Kapazität hat
+    struct DynamicStack* stack = malloc(sizeof(DynamicStack));
+    if (stack == NULL) {
+        return NULL;
+    }
+    stack->data = NULL;
+    stack->size = 0;
+    stack->capacity = 0;
+    return stack;
 }
 
 void stack_free(DynamicStack* stack) {
-    // TODO: e)
+    if (stack == NULL) {
+        return;
+    }
+    // Stack frei geben 
+    free (stack->data);
+    // Pointer resetten
+    stack->data = NULL; 
+    stack->size = 0;
+    stack->capacity = 0;
+
 }
 
 void stack_push(DynamicStack* stack, int value) {
-    // TODO: c)
+
+if (stack->size >= stack->capacity) {
+        // Stack ist voll, wir müssen die Kapazität erhöhen
+        int new_capacity = (stack->capacity == 0) ? 1 : stack->capacity * 2;
+        int* new_data = realloc(stack->data, new_capacity * sizeof(int));
+        if (new_data == NULL) {
+            // Fehler bei der Speicherzuweisung
+            return;
+        }
+        stack->data = new_data;
+        stack->capacity = new_capacity;
+    }
+    // Füge den neuen Wert oben auf den Stack
+    stack->data[stack->size] = value;
+    stack->size++;
 }
 
 int stack_pop(DynamicStack* stack) {
-    // TODO: d)
-    return 0;
+    
+    if (stack->size == 0) {
+        // Stack ist leer
+        printf("der Stack ist leer, man kann nichts wiedergeben!\n"); 
+        return 0;
+    }
+    // auf den obersten Wert des Stacks zufreifen
+    int value = stack->data[stack->size - 1];
+    // Den Size operator um einen veringern
+    stack->size--;
+    // Den obersten Wert des Stacks zurückgeben
+    return value;
 }
 
 void test_stack_ops(DynamicStack* stack) {
