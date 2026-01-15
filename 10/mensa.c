@@ -53,31 +53,78 @@ void println_list(Node* list) {
 Return the number of elements in the list.
 */
 int length_list(Node* list) {
-    // TODO: implement (a)
-    return 0;
+
+int count = 0;
+// wenn der Knotenpunkt nicht leer ist +1 count
+while (list != NULL) {
+    count++;
+    // geht auf den nächsten Knotenpunkt
+    list = list->next;
+}
+return count;
 }
 
 /**
 Return the element at position.
 */
 String get_list(Node* list, int position) {
-    // TODO: implement (b)
+
+int i = 0;
+
+// Geht auf die gewünschte position in der Liste
+while (list != NULL && i < position) {
+    list = list->next;
+    i++;
+}
+
+// Stelle existiert nicht
+if (list == NULL) {
     return NULL;
+}
+// Gibt den Wert in der gewünschten position der Liste wieder
+return list->value;
 }
 
 /**
 Free all nodes of the list, including the values it contains.
 */
 void free_list(Node* list) {
-    // TODO: implement (c)
+    Node* current = list;
+    while (current != NULL) {
+        Node* next_node = current->next; // Nachfolger merken
+        
+        // Den String löschen (behebt s_copy Leaks)
+        if (current->value != NULL) {
+            free(current->value); 
+        }
+        
+        // Den Knoten löschen (behebt new_node Leaks)
+        free(current); 
+        
+        current = next_node; // Zum nächsten Element
+    }
 }
 
 /**
 Adds an element to the end of the list. Modifies the existing list.
 */
-Node* append_list(Node* list, String value) {
-    // TODO: implement (d)
+
+Node* last_node(Node* list) {
+    if (list == NULL) return NULL;
+    while (list->next != NULL) {
+        list = list->next;
+    }
     return list;
+}
+
+Node* append_list(Node* list, String value) {    
+
+if (list == NULL) { // wenn die Liste leer ist
+    return new_node(value, NULL); 
+    } else { // springt zum letzten punkt und zeigt auf einen knoten weiter
+        last_node(list)->next = new_node(value, NULL);
+        return list;
+    }
 }
 
 // Remove element at position index from list. The element at index has to be deleted.
@@ -91,7 +138,9 @@ Node* remove_list(Node* list, int index) {
     }
     // return second or later element of non-empty list
     int i = 0;
+    // Wenn die Stelle der Liste nicht leer ist, spring ein weiter
     for (Node* node = list; node != NULL; node = node->next) {
+        // hält ein punkt vorm ende an und löscht den nächsten (letzen) punkt
         if (i + 1 == index) {
             Node* to_remove = node->next;
             if (to_remove == NULL) return list;
@@ -138,8 +187,20 @@ nächster Essenswunsch: Schnitzel (3 hungrige Studierende warten)
 Reputation der Mensa: 0
 > 
 */
-void print_situation(void) {
-    // TODO: implement (e)
+void print_situation() {
+    printf("fertige Essen: ");
+    print_list(food); // Nutzt deine fertige print_list Funktion
+    printf("\n");
+
+    if (students != NULL) {
+        printf("nächster Essenswunsch: %s (%d hungrige Studierende warten)\n", 
+                students->value, length_list(students));
+    } else {
+        printf("Keine wartenden Studierenden.\n");
+    }
+
+    printf("Reputation der Mensa: %d\n", reputation);
+    printf("> ");
 }
 
 /**
@@ -147,8 +208,16 @@ Print final message, release all dynamically allocated memory, and exit the prog
 Fertig für heute. Die Mensa schließt.
 Finale Reputation der Mensa: 3
 */
-void finish(void) {
-    // TODO: implement (f)
+// Hilfsfunktion zum Freigeben der Liste
+
+void finish(void) { // 'void' in den Klammern bedeutet: keine Parameter
+    printf("Fertig für heute. Die Mensa schließt.\n");
+    printf("Finale Reputation der Mensa: %d\n", reputation);
+    
+    // Wir räumen die globalen Listen auf
+    free_list(food);
+    free_list(students);
+    
     exit(0);
 }
 
@@ -187,24 +256,74 @@ Veggie möchte ich nicht! Ich möchte Schnitzel!
 Fertig für heute. Die Mensa schließt.
 Reputation der Mensa: -2
 */
-void run_mensa(void) {
-    // TODO: implement
-    // create 5 random food items from the menu
-    // ...
+void run_mensa() {
+    // 1. Initialisierung: 5 zufällige Essen kochen
+    for (int i = 0; i < 5; i++) {
+        food = append_list(food, menu[i_rnd(menu_count)]);
+    }
+    // 2. Initialisierung: 3 wartende Studenten mit Wünschen
+    for (int i = 0; i < 3; i++) {
+        students = append_list(students, menu[i_rnd(menu_count)]);
+    }
 
-    // create 3 random food wishes from the menu (each wish from one student)
-    // ...
-    
-    print_situation();
-    
-    int i;
-    while ((i = i_input()) >= -1) {
-        // process input
-        // distinguish different cases, update lists
-        // use get_list, remove_list, append_list, length_list
-        // use i_rnd to select random food items and random food wishes
-        // use s_equals or strcmp to compare strings
-        print_situation();
+    while (true) {
+        print_situation(); // Zeigt Essen, nächsten Wunsch und Reputation an
+        
+        int input = i_input(); // Eingabe des Index
+
+        if (input == -2) {
+            finish(); // Beendet Simulation
+            return;
+        }
+
+        // Falls keine Studenten mehr da sind (Sicherheitsabfrage)
+        if (students == NULL) {
+            printf("Keine Studierenden mehr in der Schlange.\n");
+            break;
+        }
+
+        String wunsch = students->value;
+
+        if (input == -1) {
+            // Wunsch kann nicht erfüllt werden
+            printf("%s ist nicht da? Schade.\n", wunsch);
+            reputation -= 2;
+            // Student verlässt die Schlange enttäuscht
+            students = remove_list(students, 0);
+        } else {
+            // Ein Gericht wird ausgewählt
+            String serviert = get_list(food, input);
+            
+            if (serviert == NULL) {
+                printf("Dieses Essen existiert nicht an Index %d!\n", input);
+                continue;
+            }
+
+            if (s_equals(serviert, wunsch)) {
+                // ERFOLG: Richtiger Wunsch
+                printf("Vielen Dank! Ich liebe die Mensa!\n");
+                reputation += 1;
+                
+                // Essen wird aus der Küche genommen und ein neues gekocht
+                food = remove_list(food, input);
+                food = append_list(food, menu[i_rnd(menu_count)]);
+                
+                // Student verlässt zufrieden die Schlange
+                students = remove_list(students, 0);
+                
+                // Belohnung: Ein neuer Student kommt dazu
+                students = append_list(students, menu[i_rnd(menu_count)]);
+            } else {
+                // FEHLER: Falsches Essen
+                printf("%s möchte ich nicht! Ich möchte %s!\n", serviert, wunsch);
+                reputation -= 1;
+                // Das Essen wird zurückgenommen (bleibt also in der Liste 'food')
+                // Der Student bleibt in der Schlange (wird nicht entfernt)
+            }
+        }
+
+        // Wenn die Schlange leer sein sollte (theoretisch)
+        if (students == NULL) break;
     }
     finish();
 }
