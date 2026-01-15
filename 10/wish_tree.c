@@ -122,6 +122,31 @@ void free_element(Element* element){
 }
 //TODO: c)
 TreeNode* add_wish(TreeNode* tree, char* wish, char* child){
+    if(tree == NULL){
+        Element* element = new_element(wish, child);
+        TreeNode* tree_node = new_tree_node(element);
+        return tree_node;
+    }
+    int comparison = strcmp(tree->element->text, wish);
+
+    if(comparison == 0){
+        tree->element->count++;
+        bool contains_child = contains(tree->element->children, child);
+
+        if(!contains_child){
+           Node* node = new_node(child, tree->element->children);
+           tree->element->children = node;
+        }
+    }
+
+    else if(comparison > 0){
+        tree->left = add_wish(tree->left, wish, child);
+    }
+
+    else if(comparison < 0){
+        tree->right = add_wish(tree->right, wish, child);
+    }
+
     return tree;
 }
 
