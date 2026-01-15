@@ -95,24 +95,74 @@ TreeNode* new_tree_node(Element* element){
     Releases the memory used by a tree_node and also frees the included element.
 */
 void free_tree_node(TreeNode* tree){
+    if(tree == NULL) return;
+
+    free_tree_node(tree->left);
+    free_tree_node(tree->right);
+
+    free_element(tree->element);
+
+    free(tree);
 }
 
 
 //TODO: b)
-struct Element{
-};
+typedef struct Element{
+    char* text;
+    int count;
+    Node* children;
+} Element;
 
 //TODO: b)
 Element* new_element(char* wish, char* child){
-    return NULL;
+    Element* el = xmalloc(sizeof(Element));
+    el->count = 1;
+    el->text = s_copy(wish);
+
+    Node* node = new_node(child, NULL);
+    el->children = node;
+    return el;
 }
 
 //TODO: g)
 void free_element(Element* element){
+    if(element == NULL) return;
 
+    free(element->text);
+
+    while(element->children != NULL){
+        element->children = free_node(element->children);
+    }
+
+    free(element);
 }
 //TODO: c)
 TreeNode* add_wish(TreeNode* tree, char* wish, char* child){
+    if(tree == NULL){
+        Element* element = new_element(wish, child);
+        TreeNode* tree_node = new_tree_node(element);
+        return tree_node;
+    }
+    int comparison = strcmp(tree->element->text, wish);
+
+    if(comparison == 0){
+        tree->element->count++;
+        bool contains_child = contains(tree->element->children, child);
+
+        if(!contains_child){
+           Node* node = new_node(child, tree->element->children);
+           tree->element->children = node;
+        }
+    }
+
+    else if(comparison > 0){
+        tree->left = add_wish(tree->left, wish, child);
+    }
+
+    else if(comparison < 0){
+        tree->right = add_wish(tree->right, wish, child);
+    }
+
     return tree;
 }
 
@@ -129,7 +179,11 @@ ElementNode* new_element_node(Element* element, ElementNode* next){
 }
 //TODO: g)
 void free_element_list(ElementNode* en){
-    
+    while(en != NULL){
+        ElementNode* next = en->next;
+        free(en);
+        en = next; 
+    }
 }
 
 void print_element_list(ElementNode* list, int n){
@@ -143,11 +197,58 @@ void print_element_list(ElementNode* list, int n){
 
 //TODO: e)
 ElementNode* insert_ordered_by_count(ElementNode* result, TreeNode* tree){
-    return NULL;
+    if (tree == NULL){
+        return result;
+    }
+
+    result = insert_ordered_by_count(result, tree->left);
+
+    ElementNode* new_node = new_element_node(tree->element, NULL);
+
+    if(result == NULL || tree->element->count > result->element->count){
+        new_node->next = result;
+        result = new_node;
+    }
+
+    else {
+        ElementNode* current = result;
+        
+        while(current->next != NULL && current->next->element->count >= tree->element->count){
+            current = current->next;
+        }
+        
+        new_node->next = current->next;
+        current->next = new_node;
+    }
+
+    result = insert_ordered_by_count(result, tree->right);
+
+    return result;
+    
 }
 
 //TODO: d)
 void print_tree_as_list(TreeNode* tree){
+    if(tree == NULL) {
+        return;
+    }
+
+    print_tree_as_list(tree->left);
+
+    Element* el = tree->element;
+    printf("%-55s %2d ", el->text, el->count);
+
+    Node* child = el->children;
+    while(child != NULL){
+        printf("%s", child->value);
+        if(child->next != NULL){
+            printf(", ");
+        }
+        child = child->next;
+    }
+
+    printf("\n");
+    print_tree_as_list(tree->right);
 
 }
 
@@ -241,10 +342,48 @@ int main(int argc, char** argv){
     
     //print_element_list(sorted_by_count, 10);
     
-    
     //TODO: f)
+    Node* happy_children = NULL;
+    ElementNode* temp = sorted_by_count;
+    int limit = 0;
+
+    while(temp != NULL && limit < 11){
+        
+        Node* child_node = temp->element->children;
+        
+        while(child_node != NULL){
+            if(!contains(happy_children, child_node->value)){
+                happy_children = new_node(child_node->value, happy_children);
+            }
+            child_node = child_node->next;
+        }
+        
+        temp = temp->next;
+        limit++;
+    }
+
+    int count = length(happy_children);
+    printf("Versorgte Kinder: %d von 29\n", count);
+    
+    if(count == 29){
+        printf("Alle Kinder bekommen Geschenke!\n");
+    } else {
+        printf("Leider gehen manche Kinder leer aus.\n");
+    }
+
+    while(happy_children != NULL){
+        happy_children = free_node(happy_children);
+    }
     
     //TODO: g)
+    
+    while(happy_children != NULL){
+        happy_children = free_node(happy_children);
+    }
+    
+    free_element_list(sorted_by_count);
+
+    free_tree_node(tree);
 
     return 0;
 }
