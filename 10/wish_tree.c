@@ -182,6 +182,26 @@ ElementNode* insert_ordered_by_count(ElementNode* result, TreeNode* tree){
 
 //TODO: d)
 void print_tree_as_list(TreeNode* tree){
+    if(tree == NULL) {
+        return;
+    }
+
+    print_tree_as_list(tree->left);
+
+    Element* el = tree->element;
+    printf("%-55s %2d ", el->text, el->count);
+
+    Node* child = el->children;
+    while(child != NULL){
+        printf("%s", child->value);
+        if(child->next != NULL){
+            printf(", ");
+        }
+        child = child->next;
+    }
+
+    printf("\n");
+    print_tree_as_list(tree->right);
 
 }
 
