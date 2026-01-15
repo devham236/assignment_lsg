@@ -99,12 +99,21 @@ void free_tree_node(TreeNode* tree){
 
 
 //TODO: b)
-struct Element{
-};
+typedef struct Element{
+    char* text;
+    int count;
+    Node* children;
+} Element;
 
 //TODO: b)
 Element* new_element(char* wish, char* child){
-    return NULL;
+    Element* el = xmalloc(sizeof(Element));
+    el->count = 1;
+    el->text = s_copy(wish);
+
+    Node* node = new_node(child, NULL);
+    el->children = node;
+    return el;
 }
 
 //TODO: g)
