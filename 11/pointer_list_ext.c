@@ -21,21 +21,20 @@ void free_string(void* x) {
 // Create a list consisting of the first n nodes of list.
 Node* take_list(Node* list, int n) {
     // TODO: a)
-    if (list == NULL || n <= 0) {
-        return NULL;
-    }
+    if (n <= 0 || list == NULL) return NULL;
 
-    // Erster Knoten der neuen Liste
-    Node* result = new_node(list->value, NULL);
-    Node* current_new = result;
-    Node* current_old = list->next;
+    Node* result = NULL;
+    Node* tail = NULL;
 
-    int count = 1;
-    while (current_old != NULL && count < n) {
-        current_new->next = new_node(current_old->value, NULL);
-        current_new = current_new->next;
-        current_old = current_old->next;
-        count++;
+    while (list != NULL && n-- > 0) {
+        Node* node = new_node(list->value, NULL);
+        if (result == NULL) {
+            result = node;
+        } else {
+            tail->next = node;
+        }
+        tail = node;
+        list = list->next;
     }
 
     return result;
@@ -44,28 +43,25 @@ Node* take_list(Node* list, int n) {
 // Create a list consisting of nodes of list, except the first n.
 Node* drop_list(Node* list, int n) {
     // TODO: b)
-    // n Elemente überspringen
-    Node* current = list;
-    while (current != NULL && n > 0) {
-        current = current->next;
-        n--;
+    // Überspringe die ersten n Elemente
+    while (list != NULL && n-- > 0) {
+        list = list->next;
     }
 
-    // Falls nichts mehr übrig ist
-    if (current == NULL) {
-        return NULL;
-    }
+    if (list == NULL) return NULL;
 
-    // erste Node der neuen Liste
-    Node* result = new_node(current->value, NULL);
-    Node* current_new = result;
-    current = current->next;
+    Node* result = NULL;
+    Node* tail = NULL;
 
-    // Rest kopieren
-    while (current != NULL) {
-        current_new->next = new_node(current->value, NULL);
-        current_new = current_new->next;
-        current = current->next;
+    while (list != NULL) {
+        Node* node = new_node(list->value, NULL);
+        if (result == NULL) {
+            result = node;
+        } else {
+            tail->next = node;
+        }
+        tail = node;
+        list = list->next;
     }
 
     return result;
@@ -78,34 +74,25 @@ Node* interleave(Node* list1, Node* list2) {
     Node* tail = NULL;
 
     while (list1 != NULL || list2 != NULL) {
+        Node* lists[2] = {list1, list2};
+        for (int i = 0; i < 2; i++) {
+            if (lists[i] != NULL) {
+                Node* node = new_node(lists[i]->value, NULL);
+                if (result == NULL) {
+                    result = node;
+                } else {
+                    tail->next = node;
+                }
+                tail = node;
 
-        if (list1 != NULL) {
-            Node* n = new_node(list1->value, NULL);
-            if (result == NULL) {
-                result = n;
-                tail = n;
-            } else {
-                tail->next = n;
-                tail = n;
+                // Liste vorwärts bewegen
+                if (i == 0) list1 = list1->next;
+                else list2 = list2->next;
             }
-            list1 = list1->next;
-        }
-
-        if (list2 != NULL) {
-            Node* n = new_node(list2->value, NULL);
-            if (result == NULL) {
-                result = n;
-                tail = n;
-            } else {
-                tail->next = n;
-                tail = n;
-            }
-            list2 = list2->next;
         }
     }
 
     return result;
-    return NULL;
 }
 
 // typedef bool (*EqualFun)(void* element1, void* element2);
@@ -121,32 +108,33 @@ bool group_by_length(void* element1, void* element2) {
 // Each group contains items that are equivalent.
 Node* group_list(Node* list, EqualFun equivalent) {
     // TODO: d)
-    Node* groups = NULL;  // Liste von Gruppen
+    Node* groups = NULL;
 
     for (Node* cur = list; cur != NULL; cur = cur->next) {
-        bool found = false;
+        Node* matching_group = NULL;
 
         // Suche passende Gruppe
         for (Node* g = groups; g != NULL; g = g->next) {
-            Node* group = g->value;  // eine Gruppe (Liste)
-
+            Node* group = g->value;
             if (equivalent(cur->value, group->value)) {
-                // Element zur Gruppe hinzufügen (vorne)
-                g->value = new_node(cur->value, group);
-                found = true;
+                matching_group = group;
                 break;
             }
         }
 
-        // Falls keine passende Gruppe existiert
-        if (!found) {
+        if (matching_group) {
+            // Element ans Ende der Gruppe anhängen
+            Node* tail = matching_group;
+            while (tail->next != NULL) tail = tail->next;
+            tail->next = new_node(cur->value, NULL);
+        } else {
+            // Neue Gruppe erstellen
             Node* new_group = new_node(cur->value, NULL);
             groups = new_node(new_group, groups);
         }
     }
 
     return groups;
-    return NULL;
 }
 
 void free_group(void* x) {
