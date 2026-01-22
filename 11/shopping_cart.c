@@ -26,7 +26,7 @@ typedef struct {
 Item* new_item(String name, Category cat, int price) {
     Item* item = xmalloc(sizeof(Item));
 
-    *item = (Item) {
+    *item = (Item) { // *item ist das Objekt hinter dem pointer item
         .name = s_copy(name),
         .cat = cat,
         .price = price,
@@ -38,8 +38,8 @@ Item* new_item(String name, Category cat, int price) {
 // Item* -> Item*
 // Create a copy of an Item.
 void* copy_item(void* x) {
-    // TODO: a)
-    return NULL;
+    Item* item = (Item*)x; 
+    return item;
 }
 
 // Item* -> String
@@ -47,7 +47,7 @@ void* copy_item(void* x) {
 String item_to_string(void* x) {
     Item* item = (Item *) x;
     size_t n = 100 + s_length(item->name);
-    String text = xmalloc(n);
+    String text = xmalloc(n); // reserviert den speicher abhängig von der länge des Strings
 
     String cat_string = "unknown";
     switch(item->cat) {
@@ -69,30 +69,41 @@ String item_to_string(void* x) {
 // Item* -> void
 // Releases memory of an Item.
 void free_item(void* x) {
-    // TODO: a)
+    Item* item = (Item*)x;
+    free(item->name);
+    free(item);
 }
 
 // Item* -> bool
 // Returns true if the item is an electronic device.
 bool is_electronics(void* element, int i, void* x) {
-    // TODO: b)
-    return false;
+
+    Item* item = (Item*)element;
+    return item->cat == C_ELECTRONICS;
 }
 
 // Item* -> String
 // Maps an Item to its name.
 void* item_name(void* element, int i, void* x) {
-    // TODO: d)
-    return "";
+
+    Item* item = (Item*)element; // zeigt mit dem Item pointer auf das eingegebene Element
+    return item->name; 
 }
 
 // Item* -> bool
 // Returns true if the price is less than *x.
 bool price_less_than(void* element, int i, void* x) {
-    // TODO: c)
+    
     Item* item = (Item *)element;
+    // der Void element Pointer wird in ein Item Pointer umgewandelt,
+    // damit wir in der Funktion auf die Felder in dem Pointer zugreifen können
+
     int a = *(int *)x;
+    // Der Void x Pointer wird zu einem int Pointer umgelegt und
+    // dereferenziert um die Preisobergrenze zu bekommen
+
     return item->price < a;
+    // gibt alle Preise an die kleiner als unser Preislimit sind.
 }
 
 
@@ -117,9 +128,18 @@ int main(void) {
         free(s);
     }
 
-    printsln("= first item cheaper than 10€ =");
+printsln("= first item cheaper than 10€ =");
     // TODO: b)
+    int limit = 1000; // 10.00€ in cent
+    Item* cheap_item = find_list(list, price_less_than, &limit);
 
+    if (cheap_item != NULL) {
+        String s = item_to_string(cheap_item);
+        printsln(s);
+        free(s);
+    } else {
+        printsln("No item found under 10€.");
+    }
  
 
     free_list(list, free_item);
