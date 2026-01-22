@@ -26,7 +26,7 @@ typedef struct {
 Item* new_item(String name, Category cat, int price) {
     Item* item = xmalloc(sizeof(Item));
 
-    *item = (Item) {
+    *item = (Item) { // *item ist das Objekt hinter dem pointer item
         .name = s_copy(name),
         .cat = cat,
         .price = price,
@@ -47,7 +47,7 @@ void* copy_item(void* x) {
 String item_to_string(void* x) {
     Item* item = (Item *) x;
     size_t n = 100 + s_length(item->name);
-    String text = xmalloc(n);
+    String text = xmalloc(n); // reserviert den speicher abhängig von der länge des Strings
 
     String cat_string = "unknown";
     switch(item->cat) {
@@ -86,8 +86,8 @@ bool is_electronics(void* element, int i, void* x) {
 // Maps an Item to its name.
 void* item_name(void* element, int i, void* x) {
 
-    Item* item = (Item*)element;
-    return item->name;
+    Item* item = (Item*)element; // zeigt mit dem Item pointer auf das eingegebene Element
+    return item->name; 
 }
 
 // Item* -> bool
@@ -99,7 +99,7 @@ bool price_less_than(void* element, int i, void* x) {
     // damit wir in der Funktion auf die Felder in dem Pointer zugreifen können
 
     int a = *(int *)x;
-    // Der Void x Pointer wird zu einem double Pointer umgelegt und
+    // Der Void x Pointer wird zu einem int Pointer umgelegt und
     // dereferenziert um die Preisobergrenze zu bekommen
 
     return item->price < a;
