@@ -131,7 +131,7 @@ Node* group_list(Node* list, EqualFun equivalent) {
             Node* group = g->value;  // eine Gruppe (Liste)
 
             if (equivalent(cur->value, group->value)) {
-                // Element zur Gruppe hinzufügen (vorn)
+                // Element zur Gruppe hinzufügen (vorne)
                 g->value = new_node(cur->value, group);
                 found = true;
                 break;
