@@ -81,13 +81,20 @@ Node* drop_list(Node* list, int n) {
 }
 
 // Take alternatingly from list1 and list2 until all data is collected in the result.
+/*
+Beispiel:
+list1 = a -> bb -> ccc
+list2 = dd -> e
+interleave(list1, list2)
+Ausgabe: a -> dd -> bb -> e -> ccc
+*/
 Node* interleave(Node* list1, Node* list2) {
     // TODO: c)
     Node* result = NULL;
     Node* tail = NULL;
 
-    while (list1 != NULL || list2 != NULL) {
-        Node* lists[2] = {list1, list2};
+    while (list1 != NULL || list2 != NULL) { // Läuft solange Liste 1 oder Liste 2 Elemente hat
+        Node* lists[2] = {list1, list2}; // Array mit den zwei Listen
         for (int i = 0; i < 2; i++) {
             if (lists[i] != NULL) {
                 Node* node = new_node(lists[i]->value, NULL);
@@ -98,7 +105,7 @@ Node* interleave(Node* list1, Node* list2) {
                 }
                 tail = node;
 
-                // Liste vorwärts bewegen
+                // Richtige Liste vorwärts bewegen
                 if (i == 0) list1 = list1->next;
                 else list2 = list2->next;
             }
