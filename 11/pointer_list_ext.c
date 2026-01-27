@@ -19,40 +19,53 @@ void free_string(void* x) {
 }
 
 // Create a list consisting of the first n nodes of list.
+// Zum Beispiel: 
+// list = ["a" -> "bb" -> "ccc" -> "dd" -> "e"]
+// take_list(list, 3)
+// Ausgabe -> ["a" -> "bb" -> "ccc"]
 Node* take_list(Node* list, int n) {
     // TODO: a)
     if (n <= 0 || list == NULL) return NULL;
 
-    Node* result = NULL;
-    Node* tail = NULL;
+    Node* result = NULL; // Anfang der neuen Liste
+    Node* tail = NULL; // letztes Element der neuen Liste zum Anhängen
 
-    while (list != NULL && n-- > 0) {
-        Node* node = new_node(list->value, NULL);
+    while (list != NULL && n-- > 0) { // Prüfe erstmal ob n < 0 und danach n = n - 1
+        Node* node = new_node(list->value, NULL); // neues Listenelement wird erstellt
         if (result == NULL) {
-            result = node;
+            result = node; // wenn es die erste Node ist, dann ist der Wert "node"
         } else {
-            tail->next = node;
+            tail->next = node; // sonst an next ranhängen
         }
-        tail = node;
-        list = list->next;
+        tail = node; // danach tail auf das neue Ende setzen
+        list = list->next; // in der Originalliste weitergehen
     }
 
     return result;
 }
 
 // Create a list consisting of nodes of list, except the first n.
+/*
+Beispiel:
+list = [ "a" -> "bb" -> "ccc" -> "dd" -> "e" ]
+drop_list(list, 3)
+Ausgabe -> [ "dd" -> "e" ]
+*/
 Node* drop_list(Node* list, int n) {
     // TODO: b)
     // Überspringe die ersten n Elemente
+
+    // erster while loop positioniert den Pointer, also überspringt die ersten n Elemente
     while (list != NULL && n-- > 0) {
-        list = list->next;
+        list = list->next; // Listen pointer wird weiter bewegt bis zur gewünschten Stelle und da macht der zweite loop dann weiter(dadurch ist value dann der nächste Eintrag und der nächste Eintrag dann ein weiter)
     }
 
     if (list == NULL) return NULL;
 
-    Node* result = NULL;
-    Node* tail = NULL;
+    Node* result = NULL; // wieder start der neuen Liste
+    Node* tail = NULL; // und Ende
 
+    // zweiter while loop erzeugt die neuen Nodes, hängt sie an result und läuft bis zum Ende der Liste
     while (list != NULL) {
         Node* node = new_node(list->value, NULL);
         if (result == NULL) {
