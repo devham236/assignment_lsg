@@ -134,6 +134,7 @@ int string_length(char *s)
     return count;
 }
 
+// (a)
 bool digits_have_length_3(char *s)
 {
     return true;
