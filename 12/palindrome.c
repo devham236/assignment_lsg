@@ -84,13 +84,12 @@ Return whether a String contains at least one palindrome of minimum size minimum
 bool contains_palindrome(char *s, int minimum_palindrome_size)
 {
     // TODO implement
-    // Jedes Wort im String in ein seperates char array speichern
     for (int i = 0; i < strlen(s); i++)
     {
         for (int j = minimum_palindrome_size; i + j <= strlen(s); j++)
         {
-            char test[j + 1];
-            memcpy(test, s + i, j);
+            char test[j + 1];       // Der Teilstring muss minimum_palindrome_size haben und die terminierende null '\0', deswegen plus 1
+            memcpy(test, s + i, j); // memcpy kümmert sich nicht um das 0-Byte, deswegen musst man es manuell einfügen.
             test[j] = '\0';
 
             if (is_palindrome(test))
@@ -101,6 +100,20 @@ bool contains_palindrome(char *s, int minimum_palindrome_size)
     }
 
     return false;
+
+    /*
+    Der äußere for loop bestimmt bei welchem index des strings geschaut werden soll ob ein Palindrome mit der minimum_palindrome_size vorliegt.
+    Der innere loop kopiert die ersten j Zeichen aus dem String und überprüft ob ein Palindrome vorliegt.
+
+    Zum Beispiel: "test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);"
+    Der String hat mindestens ein Palindrom mit 3 oder mehr character.
+    Äußere Schleife ist bei i = 0, also bei char 'm'. Innere Schleife kopiert jetzt die character 0-3, also "mad", in das array und schaut mit der if Abfrage ob das ein Palindrome ist.
+    "mad" ist kein Palindrome, also erhöht sich j um 1. Jetzt kopiert der innere loop, "mada" in das test array und schaut ob das ein Palindrome.
+    "mada" ist auch kein Palindrome, also erhöht sich j wieder um 1. Jetzt kopiert der innere loop "madam" in das test array und schaut ob ein Palindrome vorliegt.
+    "madam" ist ein Palindrome, die if Abfrage gibt ein true wieder und die beiden loops werden beendet. Den Rest des Strings muss man nicht mehr beachten, weil ja ein Palindrome mit Größe 3 schon gefunden wurde.
+
+    Die äußere Schleife wird erst um 1 erhöht, bzw. geht erst ein Index weiter im String, wenn die innere Schleife die Abbruchbedingung erreicht, also wenn der zu überprüfende Teilstring länger ist als der string an sich.
+    */
 }
 
 void test(void)
