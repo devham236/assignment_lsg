@@ -38,6 +38,7 @@ bool is_palindrome(char *s)
     {
         return false;
     }
+
     int left = 0;
     int right = string_length - 1;
 
@@ -54,6 +55,11 @@ bool is_palindrome(char *s)
             right--;
             continue;
         }
+        /*
+        Wenn s[left] oder s[right] nicht im Alphabet ist wird um einen erhöht/verringert und man springt durch "continue" an den Anfang der while Schleife.
+
+        Zum Beispiel bei "shower." ist left 0 (s[left] = s) und right = 6 (s[right] = .). Beim ersten Durchlauf ist s[left] im Alphabet, s[right] aber nicht, also wird right um einen verringert und man springt an den Anfang der while Schleife, s[left] ist immernoch gleich s, s[right] ist jetzt aber r
+        */
 
         if (s[left] != s[right])
         {
