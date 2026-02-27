@@ -111,7 +111,7 @@ bool contains_palindrome(char *s, int minimum_palindrome_size)
     "mada" ist auch kein Palindrome, also erhöht sich j wieder um 1. Jetzt kopiert der innere loop "madam" in das test array und schaut ob ein Palindrome vorliegt.
     "madam" ist ein Palindrome, die if Abfrage gibt ein true wieder und die beiden loops werden beendet. Den Rest des Strings muss man nicht mehr beachten, weil ja ein Palindrome mit Größe 3 schon gefunden wurde.
 
-    Die äußere Schleife wird erst um 1 erhöht, bzw. geht erst ein Index weiter im String, wenn die innere Schleife die Abbruchbedingung erreicht, also wenn der zu überprüfende Teilstring länger ist als der string an sich.
+    Die äußere Schleife wird erst um 1 erhöht, bzw. geht erst ein Index weiter im String, wenn die innere Schleife die Abbruchbedingung erreicht, also wenn der zu überprüfende Teilstring länger ist als der string selbst.
     */
 }
 
