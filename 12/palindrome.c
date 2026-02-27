@@ -135,7 +135,7 @@ int string_length(char *s)
 }
 
 // (a)
-bool digits_have_length_3(char *s)
+bool str_has_digits_with_length_3(char *s)
 {
     return true;
 }
@@ -178,11 +178,11 @@ void test(void)
     // test_equal_i(string_length(""), 0);
 
     // (a)
-    test_equal_b(digits_have_length_3("123"), true);
-    test_equal_b(digits_have_length_3("ab c de 123456"), true);
-    test_equal_b(digits_have_length_3("123 asdbderb 890"), true);
-    test_equal_b(digits_have_length_3("1234"), false);
-    test_equal_b(digits_have_length_3("aaa"), false);
+    test_equal_b(str_has_digits_with_length_3("123"), true);
+    test_equal_b(str_has_digits_with_length_3("ab c de 123456"), true);
+    test_equal_b(str_has_digits_with_length_3("123 asdbderb 890"), true);
+    test_equal_b(str_has_digits_with_length_3("1234"), false);
+    test_equal_b(str_has_digits_with_length_3("aaa"), false);
 }
 
 int main(void)
