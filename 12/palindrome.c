@@ -12,12 +12,13 @@ String alphabet = "abcdefghijklmnopqrstuvwxyz";
 Return whether a character is in the alphabet
 */
 bool is_in_alphabet(char c) {
+    int lower_case_char = tolower(c);
     
     // TODO implement
     for (int i = 0; i < strlen(alphabet); i++)
     {
         /* code */
-        if(tolower(c) == alphabet[i]) return true;
+        if(lower_case_char == alphabet[i]) return true;
     }
     
     
@@ -51,21 +52,21 @@ bool contains_palindrome(char* s, int minimum_palindrome_size) {
 
 void test(void) {
     // (a)
-    // test_equal_b(is_in_alphabet('a'), true);
-    // test_equal_b(is_in_alphabet('y'), true);
-    // test_equal_b(is_in_alphabet('B'), true);
-    // test_equal_b(is_in_alphabet('X'), true);
-    // test_equal_b(is_in_alphabet(' '), false);
-    // test_equal_b(is_in_alphabet('.'), false);
-    // test_equal_b(is_in_alphabet('{'), false);
+    test_equal_b(is_in_alphabet('a'), true);
+    test_equal_b(is_in_alphabet('y'), true);
+    test_equal_b(is_in_alphabet('B'), true);
+    test_equal_b(is_in_alphabet('X'), true);
+    test_equal_b(is_in_alphabet(' '), false);
+    test_equal_b(is_in_alphabet('.'), false);
+    test_equal_b(is_in_alphabet('{'), false);
     
     // (b)
-    test_equal_b(is_palindrome("hello world"), false);
-    test_equal_b(is_palindrome("anna"), true);
-    test_equal_b(is_palindrome(""), false);
-    test_equal_b(is_palindrome("shower."), false);
-    test_equal_b(is_palindrome("madam ?"), true);
-    test_equal_b(is_palindrome("nurses run"), true);
+    // test_equal_b(is_palindrome("hello world"), false);
+    // test_equal_b(is_palindrome("anna"), true);
+    // test_equal_b(is_palindrome(""), false);
+    // test_equal_b(is_palindrome("shower."), false);
+    // test_equal_b(is_palindrome("madam ?"), true);
+    // test_equal_b(is_palindrome("nurses run"), true);
     
     // // (c)
     // test_equal_b(contains_palindrome("hello world", 5), false);
