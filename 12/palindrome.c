@@ -83,8 +83,22 @@ Return whether a String contains at least one palindrome of minimum size minimum
 */
 bool contains_palindrome(char *s, int minimum_palindrome_size)
 {
-
     // TODO implement
+    // Jedes Wort im String in ein seperates char array speichern
+    for (int i = 0; i < strlen(s); i++)
+    {
+        for (int j = minimum_palindrome_size; i + j <= strlen(s); j++)
+        {
+            char test[j + 1];
+            memcpy(test, s + i, j);
+            test[j] = '\0';
+
+            if (is_palindrome(test))
+            {
+                return true;
+            }
+        }
+    }
 
     return false;
 }
@@ -92,13 +106,13 @@ bool contains_palindrome(char *s, int minimum_palindrome_size)
 void test(void)
 {
     // (a)
-    // test_equal_b(is_in_alphabet('a'), true);
-    // test_equal_b(is_in_alphabet('y'), true);
-    // test_equal_b(is_in_alphabet('B'), true);
-    // test_equal_b(is_in_alphabet('X'), true);
-    // test_equal_b(is_in_alphabet(' '), false);
-    // test_equal_b(is_in_alphabet('.'), false);
-    // test_equal_b(is_in_alphabet('{'), false);
+    test_equal_b(is_in_alphabet('a'), true);
+    test_equal_b(is_in_alphabet('y'), true);
+    test_equal_b(is_in_alphabet('B'), true);
+    test_equal_b(is_in_alphabet('X'), true);
+    test_equal_b(is_in_alphabet(' '), false);
+    test_equal_b(is_in_alphabet('.'), false);
+    test_equal_b(is_in_alphabet('{'), false);
 
     // (b)
     test_equal_b(is_palindrome("hello world"), false);
@@ -109,13 +123,13 @@ void test(void)
     test_equal_b(is_palindrome("nurses run"), true);
 
     // // (c)
-    // test_equal_b(contains_palindrome("hello world", 5), false);
-    // test_equal_b(contains_palindrome("hello world", 3), true);
-    // test_equal_b(contains_palindrome("anna", 3), true);
-    // test_equal_b(contains_palindrome("", 0), false);
-    // test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
-    // test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
-    // test_equal_b(contains_palindrome("nurses run", 4), true);
+    test_equal_b(contains_palindrome("hello world", 5), false);
+    test_equal_b(contains_palindrome("hello world", 3), true);
+    test_equal_b(contains_palindrome("anna", 3), true);
+    test_equal_b(contains_palindrome("", 0), false);
+    test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
+    test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
+    test_equal_b(contains_palindrome("nurses run", 4), true);
 }
 
 int main(void)
