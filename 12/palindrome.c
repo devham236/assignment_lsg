@@ -86,7 +86,7 @@ bool contains_palindrome(char *s, int minimum_palindrome_size)
     // TODO implement
     for (int i = 0; i < strlen(s); i++)
     {
-        for (int j = minimum_palindrome_size; i + j <= strlen(s); j++)
+        for (int j = minimum_palindrome_size; j + i <= strlen(s); j++)
         {
             char test[j + 1];       // Der Teilstring muss minimum_palindrome_size haben und die terminierende null '\0', deswegen plus 1
             memcpy(test, s + i, j); // memcpy kümmert sich nicht um das 0-Byte, deswegen musst man es manuell einfügen.
@@ -98,7 +98,6 @@ bool contains_palindrome(char *s, int minimum_palindrome_size)
             }
         }
     }
-
     return false;
 
     /*
