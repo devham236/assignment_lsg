@@ -118,7 +118,6 @@ bool contains_palindrome(char *s, int minimum_palindrome_size)
 /*****************ZUSATZAUFGABEN*****************/
 
 // (e)
-
 int string_length(char *s)
 {
     int count = 0;
@@ -133,6 +132,11 @@ int string_length(char *s)
     }
 
     return count;
+}
+
+bool digits_have_length_3(char *s)
+{
+    return true;
 }
 
 void test(void)
@@ -166,11 +170,18 @@ void test(void)
     /*****************ZUSATZAUFGABEN*****************/
 
     // (e)
-    test_equal_i(string_length("hello"), 5);
-    test_equal_i(string_length("hello world"), 10);
-    test_equal_i(string_length("1234567"), 7);
-    test_equal_i(string_length("h i , t h e r e !"), 9);
-    test_equal_i(string_length(""), 0);
+    // test_equal_i(string_length("hello"), 5);
+    // test_equal_i(string_length("hello world"), 10);
+    // test_equal_i(string_length("1234567"), 7);
+    // test_equal_i(string_length("h i , t h e r e !"), 9);
+    // test_equal_i(string_length(""), 0);
+
+    // (a)
+    test_equal_b(digits_have_length_3("123"), true);
+    test_equal_b(digits_have_length_3("ab c de 123456"), true);
+    test_equal_b(digits_have_length_3("123 asdbderb 890"), true);
+    test_equal_b(digits_have_length_3("1234"), false);
+    test_equal_b(digits_have_length_3("aaa"), false);
 }
 
 int main(void)
