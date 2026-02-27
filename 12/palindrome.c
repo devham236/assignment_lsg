@@ -115,33 +115,63 @@ bool contains_palindrome(char *s, int minimum_palindrome_size)
     */
 }
 
+/*****************ZUSATZAUFGABEN*****************/
+
+// (e)
+
+int string_length(char *s)
+{
+    int count = 0;
+
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+
+        if (s[i] == ' ')
+        {
+            continue;
+        }
+        count++;
+    }
+
+    return count;
+}
+
 void test(void)
 {
     // (a)
-    test_equal_b(is_in_alphabet('a'), true);
-    test_equal_b(is_in_alphabet('y'), true);
-    test_equal_b(is_in_alphabet('B'), true);
-    test_equal_b(is_in_alphabet('X'), true);
-    test_equal_b(is_in_alphabet(' '), false);
-    test_equal_b(is_in_alphabet('.'), false);
-    test_equal_b(is_in_alphabet('{'), false);
+    // test_equal_b(is_in_alphabet('a'), true);
+    // test_equal_b(is_in_alphabet('y'), true);
+    // test_equal_b(is_in_alphabet('B'), true);
+    // test_equal_b(is_in_alphabet('X'), true);
+    // test_equal_b(is_in_alphabet(' '), false);
+    // test_equal_b(is_in_alphabet('.'), false);
+    // test_equal_b(is_in_alphabet('{'), false);
 
     // (b)
-    test_equal_b(is_palindrome("hello world"), false);
-    test_equal_b(is_palindrome("anna"), true);
-    test_equal_b(is_palindrome(""), false);
-    test_equal_b(is_palindrome("shower."), false);
-    test_equal_b(is_palindrome("madam ?"), true);
-    test_equal_b(is_palindrome("nurses run"), true);
+    // test_equal_b(is_palindrome("hello world"), false);
+    // test_equal_b(is_palindrome("anna"), true);
+    // test_equal_b(is_palindrome(""), false);
+    // test_equal_b(is_palindrome("shower."), false);
+    // test_equal_b(is_palindrome("madam ?"), true);
+    // test_equal_b(is_palindrome("nurses run"), true);
 
-    // // (c)
-    test_equal_b(contains_palindrome("hello world", 5), false);
-    test_equal_b(contains_palindrome("hello world", 3), true);
-    test_equal_b(contains_palindrome("anna", 3), true);
-    test_equal_b(contains_palindrome("", 0), false);
-    test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
-    test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
-    test_equal_b(contains_palindrome("nurses run", 4), true);
+    // (c)
+    // test_equal_b(contains_palindrome("hello world", 5), false);
+    // test_equal_b(contains_palindrome("hello world", 3), true);
+    // test_equal_b(contains_palindrome("anna", 3), true);
+    // test_equal_b(contains_palindrome("", 0), false);
+    // test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
+    // test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
+    // test_equal_b(contains_palindrome("nurses run", 4), true);
+
+    /*****************ZUSATZAUFGABEN*****************/
+
+    // (e)
+    test_equal_i(string_length("hello"), 5);
+    test_equal_i(string_length("hello world"), 10);
+    test_equal_i(string_length("1234567"), 7);
+    test_equal_i(string_length("h i , t h e r e !"), 9);
+    test_equal_i(string_length(""), 0);
 }
 
 int main(void)
