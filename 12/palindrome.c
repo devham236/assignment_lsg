@@ -102,7 +102,7 @@ bool contains_palindrome(char *s, int minimum_palindrome_size)
 
     /*
     Der äußere for loop bestimmt bei welchem index des strings geschaut werden soll ob ein Palindrome mit der minimum_palindrome_size vorliegt.
-    Der innere loop kopiert die ersten j Zeichen aus dem String und überprüft ob ein Palindrome vorliegt.
+    Der innere loop kopiert die ersten j Zeichen, vom aktuellen Index, aus dem String und überprüft ob ein Palindrome vorliegt.
 
     Zum Beispiel: "test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);"
     Der String hat mindestens ein Palindrom mit 3 oder mehr character.
