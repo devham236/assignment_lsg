@@ -33,17 +33,19 @@ Return whether a String is a palindrome
 bool is_palindrome(char *s)
 {
     // TODO implement
-    int string_length = strlen(s);
-    if (string_length == 0)
+    int str_length = strlen(s);
+
+    if (str_length == 0)
     {
         return false;
     }
 
     int left = 0;
-    int right = string_length - 1;
+    int right = str_length - 1;
 
     while (left < right)
     {
+
         if (!is_in_alphabet(s[left]))
         {
             left++;
@@ -60,7 +62,6 @@ bool is_palindrome(char *s)
 
         Zum Beispiel bei "shower." ist left = 0 (s[left] = s) und right = 6 (s[right] = .). Beim ersten Durchlauf ist s[left] im Alphabet, s[right] aber nicht, also wird right um einen verringert und man springt an den Anfang der while Schleife, s[left] ist immernoch gleich s, s[right] ist jetzt aber r
         */
-
         if (s[left] != s[right])
         {
             return false;
