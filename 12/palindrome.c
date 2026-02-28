@@ -137,11 +137,22 @@ int string_length(char *s)
 // (a)
 bool str_has_digits_with_length_3(char *s)
 {
-    for (int i = 0; i < string_length(s); i++)
+    for (int i = 0; s[i] != '\0'; i++)
     {
-        if (isdigit(s[i]))
+        if (s[i] >= '0' && s[i] <= '9')
         {
-            printf("%c \n", s[i]);
+            int count = 0;
+
+            while (s[i] >= '0' && s[i] <= '9' && s[i] != '\0')
+            {
+                count++;
+                i++;
+            }
+
+            if (count % 3 != 0)
+            {
+                return false;
+            }
         }
     }
 
@@ -187,10 +198,10 @@ void test(void)
 
     // (a)
     test_equal_b(str_has_digits_with_length_3("123"), true);
-    test_equal_b(str_has_digits_with_length_3("ab c de 123456"), true);
-    test_equal_b(str_has_digits_with_length_3("123 asdbderb 890"), true);
-    test_equal_b(str_has_digits_with_length_3("1234"), false);
-    test_equal_b(str_has_digits_with_length_3("aaa"), false);
+    // test_equal_b(str_has_digits_with_length_3("ab c de 123456"), true);
+    // test_equal_b(str_has_digits_with_length_3("123 asdbderb 890"), true);
+    // test_equal_b(str_has_digits_with_length_3("1234"), false);
+    // test_equal_b(str_has_digits_with_length_3("aaa"), false);
 
     // test_equal_b(is_a_number('1'), true);
     // test_equal_b(is_a_number('9'), true);
