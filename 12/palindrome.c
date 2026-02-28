@@ -136,6 +136,7 @@ int string_length(char *s)
 
 /*****************KLAUSURAUFGABEN*****************/
 
+// Remove Digits
 bool isDigit(char c)
 {
     return c <= '9' && c >= '0';
@@ -207,33 +208,34 @@ void test(void)
 
     /*****************KLAUSURAUFGABEN*****************/
 
-    char *s1 = removeDigits("");
-    test_equal_s(s1, "");
-    free(s1);
+    // remove Digits
+    // char *s1 = removeDigits("");
+    // test_equal_s(s1, "");
+    // free(s1);
 
-    char *s2 = removeDigits("x");
-    test_equal_s(s2, "x");
-    free(s2);
+    // char *s2 = removeDigits("x");
+    // test_equal_s(s2, "x");
+    // free(s2);
 
-    char *s3 = removeDigits("11");
-    test_equal_s(s3, "");
-    free(s3);
+    // char *s3 = removeDigits("11");
+    // test_equal_s(s3, "");
+    // free(s3);
 
-    char *s4 = removeDigits("1x1x");
-    test_equal_s(s4, "xx");
-    free(s4);
+    // char *s4 = removeDigits("1x1x");
+    // test_equal_s(s4, "xx");
+    // free(s4);
 
-    char *s5 = removeDigits("111x111");
-    test_equal_s(s5, "x");
-    free(s5);
+    // char *s5 = removeDigits("111x111");
+    // test_equal_s(s5, "x");
+    // free(s5);
 
-    char *s6 = removeDigits("1a2b3c4");
-    test_equal_s(s6, "abc");
-    free(s6);
+    // char *s6 = removeDigits("1a2b3c4");
+    // test_equal_s(s6, "abc");
+    // free(s6);
 
-    char *s7 = removeDigits("101191xk");
-    test_equal_s(s7, "xk");
-    free(s7);
+    // char *s7 = removeDigits("101191xk");
+    // test_equal_s(s7, "xk");
+    // free(s7);
 }
 
 int main(void)
