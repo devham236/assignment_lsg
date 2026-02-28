@@ -7,7 +7,6 @@ make palindrome && ./palindrome
 #include "base.h"
 
 String alphabet = "abcdefghijklmnopqrstuvwxyz";
-String numbers = "123456789";
 /**
 (a) Todo: Implement.
 Return whether a character is in the alphabet
@@ -138,20 +137,15 @@ int string_length(char *s)
 // (a)
 bool str_has_digits_with_length_3(char *s)
 {
-    return true;
-}
-
-bool is_a_number(char s)
-{
-    for (int i = 0; i < strlen(numbers); i++)
+    for (int i = 0; i < string_length(s); i++)
     {
-        if (s == numbers[i])
+        if (isdigit(s[i]))
         {
-            return true;
+            printf("%c \n", s[i]);
         }
     }
 
-    return false;
+    return true;
 }
 
 void test(void)
