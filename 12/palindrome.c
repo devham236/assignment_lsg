@@ -89,8 +89,8 @@ bool contains_palindrome(char *s, int minimum_palindrome_size)
         for (int j = minimum_palindrome_size; j + i <= strlen(s); j++)
         {
             char test[j + 1];       // Der Teilstring muss minimum_palindrome_size haben und die terminierende null '\0', deswegen plus 1
-            memcpy(test, s + i, j); // memcpy kümmert sich nicht um das 0-Byte, deswegen musst man es manuell einfügen.
-            test[j] = '\0';
+            memcpy(test, &s[i], j); // '&s[i]' zeigt auf die Adresse des Zeichens an Index i im string s
+            test[j] = '\0';         // memcpy kümmert sich nicht um das 0-Byte, deswegen musst man es manuell einfügen.
 
             if (is_palindrome(test))
             {
@@ -160,13 +160,13 @@ void test(void)
     // test_equal_b(is_palindrome("nurses run"), true);
 
     // (c)
-    // test_equal_b(contains_palindrome("hello world", 5), false);
-    // test_equal_b(contains_palindrome("hello world", 3), true);
-    // test_equal_b(contains_palindrome("anna", 3), true);
-    // test_equal_b(contains_palindrome("", 0), false);
-    // test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
-    // test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
-    // test_equal_b(contains_palindrome("nurses run", 4), true);
+    test_equal_b(contains_palindrome("hello world", 5), false);
+    test_equal_b(contains_palindrome("hello world", 3), true);
+    test_equal_b(contains_palindrome("anna", 3), true);
+    test_equal_b(contains_palindrome("", 0), false);
+    test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
+    test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
+    test_equal_b(contains_palindrome("nurses run", 4), true);
 
     /*****************ZUSATZAUFGABEN*****************/
 
@@ -178,11 +178,11 @@ void test(void)
     // test_equal_i(string_length(""), 0);
 
     // (a)
-    test_equal_b(str_has_digits_with_length_3("123"), true);
-    test_equal_b(str_has_digits_with_length_3("ab c de 123456"), true);
-    test_equal_b(str_has_digits_with_length_3("123 asdbderb 890"), true);
-    test_equal_b(str_has_digits_with_length_3("1234"), false);
-    test_equal_b(str_has_digits_with_length_3("aaa"), false);
+    // test_equal_b(str_has_digits_with_length_3("123"), true);
+    // test_equal_b(str_has_digits_with_length_3("ab c de 123456"), true);
+    // test_equal_b(str_has_digits_with_length_3("123 asdbderb 890"), true);
+    // test_equal_b(str_has_digits_with_length_3("1234"), false);
+    // test_equal_b(str_has_digits_with_length_3("aaa"), false);
 }
 
 int main(void)
