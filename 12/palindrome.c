@@ -134,31 +134,6 @@ int string_length(char *s)
     return count;
 }
 
-// (a)
-bool str_has_digits_with_length_3(char *s)
-{
-    for (int i = 0; s[i] != '\0'; i++)
-    {
-        if (s[i] >= '0' && s[i] <= '9')
-        {
-            int count = 0;
-
-            while (s[i] >= '0' && s[i] <= '9' && s[i] != '\0')
-            {
-                count++;
-                i++;
-            }
-
-            if (count % 3 != 0)
-            {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
 void test(void)
 {
     // (a)
@@ -190,24 +165,11 @@ void test(void)
     /*****************ZUSATZAUFGABEN*****************/
 
     // (e)
-    // test_equal_i(string_length("hello"), 5);
-    // test_equal_i(string_length("hello world"), 10);
-    // test_equal_i(string_length("1234567"), 7);
-    // test_equal_i(string_length("h i , t h e r e !"), 9);
-    // test_equal_i(string_length(""), 0);
-
-    // (a)
-    test_equal_b(str_has_digits_with_length_3("123"), true);
-    // test_equal_b(str_has_digits_with_length_3("ab c de 123456"), true);
-    // test_equal_b(str_has_digits_with_length_3("123 asdbderb 890"), true);
-    // test_equal_b(str_has_digits_with_length_3("1234"), false);
-    // test_equal_b(str_has_digits_with_length_3("aaa"), false);
-
-    // test_equal_b(is_a_number('1'), true);
-    // test_equal_b(is_a_number('9'), true);
-    // test_equal_b(is_a_number('!'), false);
-    // test_equal_b(is_a_number('a'), false);
-    // test_equal_b(is_a_number('B'), false);
+    test_equal_i(string_length("hello"), 5);
+    test_equal_i(string_length("hello world"), 10);
+    test_equal_i(string_length("1234567"), 7);
+    test_equal_i(string_length("h i , t h e r e !"), 9);
+    test_equal_i(string_length(""), 0);
 }
 
 int main(void)
