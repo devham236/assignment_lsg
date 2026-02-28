@@ -134,6 +134,40 @@ int string_length(char *s)
     return count;
 }
 
+/*****************KLAUSURAUFGABEN*****************/
+
+bool isDigit(char c)
+{
+    return c <= '9' && c >= '0';
+}
+
+char *removeDigits(char *s)
+{
+    int count = 0;
+
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (!isDigit(s[i]))
+        {
+            count++;
+        }
+    }
+
+    char *new_string = xmalloc(count + 1);
+    new_string[count] = '\0';
+
+    for (int i = 0, j = 0; s[i] != '\0'; i++)
+    {
+        if (!isDigit(s[i]))
+        {
+            new_string[j] = s[i];
+            j++;
+        }
+    }
+
+    return new_string;
+}
+
 void test(void)
 {
     // (a)
@@ -165,15 +199,46 @@ void test(void)
     /*****************ZUSATZAUFGABEN*****************/
 
     // (e)
-    test_equal_i(string_length("hello"), 5);
-    test_equal_i(string_length("hello world"), 10);
-    test_equal_i(string_length("1234567"), 7);
-    test_equal_i(string_length("h i , t h e r e !"), 9);
-    test_equal_i(string_length(""), 0);
+    // test_equal_i(string_length("hello"), 5);
+    // test_equal_i(string_length("hello world"), 10);
+    // test_equal_i(string_length("1234567"), 7);
+    // test_equal_i(string_length("h i , t h e r e !"), 9);
+    // test_equal_i(string_length(""), 0);
+
+    /*****************KLAUSURAUFGABEN*****************/
+
+    char *s1 = removeDigits("");
+    test_equal_s(s1, "");
+    free(s1);
+
+    char *s2 = removeDigits("x");
+    test_equal_s(s2, "x");
+    free(s2);
+
+    char *s3 = removeDigits("11");
+    test_equal_s(s3, "");
+    free(s3);
+
+    char *s4 = removeDigits("1x1x");
+    test_equal_s(s4, "xx");
+    free(s4);
+
+    char *s5 = removeDigits("111x111");
+    test_equal_s(s5, "x");
+    free(s5);
+
+    char *s6 = removeDigits("1a2b3c4");
+    test_equal_s(s6, "abc");
+    free(s6);
+
+    char *s7 = removeDigits("101191xk");
+    test_equal_s(s7, "xk");
+    free(s7);
 }
 
 int main(void)
 {
     test();
+    report_memory_leaks(true);
     return 0;
 }
