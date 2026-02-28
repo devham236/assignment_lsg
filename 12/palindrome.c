@@ -160,22 +160,22 @@ void test(void)
     // test_equal_b(is_palindrome("nurses run"), true);
 
     // (c)
-    test_equal_b(contains_palindrome("hello world", 5), false);
-    test_equal_b(contains_palindrome("hello world", 3), true);
-    test_equal_b(contains_palindrome("anna", 3), true);
-    test_equal_b(contains_palindrome("", 0), false);
-    test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
-    test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
-    test_equal_b(contains_palindrome("nurses run", 4), true);
+    // test_equal_b(contains_palindrome("hello world", 5), false);
+    // test_equal_b(contains_palindrome("hello world", 3), true);
+    // test_equal_b(contains_palindrome("anna", 3), true);
+    // test_equal_b(contains_palindrome("", 0), false);
+    // test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
+    // test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
+    // test_equal_b(contains_palindrome("nurses run", 4), true);
 
     /*****************ZUSATZAUFGABEN*****************/
 
     // (e)
-    // test_equal_i(string_length("hello"), 5);
-    // test_equal_i(string_length("hello world"), 10);
-    // test_equal_i(string_length("1234567"), 7);
-    // test_equal_i(string_length("h i , t h e r e !"), 9);
-    // test_equal_i(string_length(""), 0);
+    test_equal_i(string_length("hello"), 5);
+    test_equal_i(string_length("hello world"), 10);
+    test_equal_i(string_length("1234567"), 7);
+    test_equal_i(string_length("h i , t h e r e !"), 9);
+    test_equal_i(string_length(""), 0);
 
     // (a)
     // test_equal_b(str_has_digits_with_length_3("123"), true);
