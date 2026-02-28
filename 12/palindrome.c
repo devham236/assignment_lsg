@@ -146,6 +146,7 @@ char *removeDigits(char *s)
 {
     int count = 0;
 
+    // erster loop sagt dir wie viel Speicherplatz du für deinen string brauchst
     for (int i = 0; s[i] != '\0'; i++)
     {
         if (!isDigit(s[i]))
@@ -154,6 +155,7 @@ char *removeDigits(char *s)
         }
     }
 
+    // zweiter loop legt an den jeweiligen indices die chars an.
     char *new_string = xmalloc(count + 1);
     new_string[count] = '\0';
 
