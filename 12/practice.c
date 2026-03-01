@@ -13,7 +13,7 @@ bool ascending_numbers_in_string(char *s)
 
     for (int i = 0; i < len; i++)
     {
-        if (isdigit(s[i]) && i > 0 && isdigit(s[i - 1]) && (s[i] == s[i - 1] + 1))
+        if (isdigit(s[i]) && i > 0 && isdigit(s[i - 1]) && (s[i] >= s[i - 1] + 1))
         {
             count++;
         }
@@ -71,6 +71,7 @@ void test()
     test_equal_b(ascending_numbers_in_string("as5678e"), true);
     test_equal_b(ascending_numbers_in_string("as58bb1234ett"), true);
     test_equal_b(ascending_numbers_in_string("123"), false);
+    test_equal_b(ascending_numbers_in_string("2468"), true);
     test_equal_b(ascending_numbers_in_string("6789"), true);
     test_equal_b(ascending_numbers_in_string("abcd"), false);
     test_equal_b(ascending_numbers_in_string("54321"), false);
