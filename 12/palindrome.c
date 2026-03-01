@@ -155,10 +155,10 @@ char *removeDigits(char *s)
         }
     }
 
-    // zweiter loop legt an den jeweiligen indices die chars an.
     char *new_string = xmalloc(count + 1);
     new_string[count] = '\0';
 
+    // zweiter loop legt an den jeweiligen indices die chars an.
     for (int i = 0, j = 0; s[i] != '\0'; i++)
     {
         if (!isDigit(s[i]))
