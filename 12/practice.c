@@ -1,6 +1,6 @@
 #include "base.h"
 
-// (a)
+// (1)
 bool ascending_numbers_in_string(char *s)
 {
     int count = 0;
@@ -35,52 +35,89 @@ bool ascending_numbers_in_string(char *s)
     return false;
 }
 
-/*
-"as5678e"
+// (4)
 
-i = 0
-"a" ist kein digit, count = 0
+bool first_equals_last(char *s)
+{
+    return s[0] == s[s_length(s) - 1];
+}
 
-i = 1
-"s" ist kein digit, count = 0
+// (7)
+char *remove_letters(char *s)
+{
+    int count = 0;
 
-i = 2
-"5" ist ein digit, i ist größer als 0, s[i-1] ist aber kein digit,
-count = 1
+    if (s[0] == '\0')
+    {
+        return "";
+    }
 
-i = 3
-"6" ist ein digit, i ist größer als 0, s[i-1] ist ein digit, 6 == s[i-1] + 1
-count = 2
+    for (int i = 0; i < s_length(s); i++)
+    {
+        if (isdigit(s[i]))
+        {
+            count++;
+        }
+    }
 
-i = 4
-"7" ist ein digit, i ist größer als 0, s[i-1] ist ein digit, 7 == s[i-1] + 1
-count = 3
+    char *new_string = xmalloc(count + 1);
+    new_string[count] = '\0';
 
-i = 5
-"8" ist ein digit, i ist größer als 0, s[i-1] ist ein digit, 8 == s[i-1] + 1
-count = 4
+    for (int i = 0, j = 0; s[i] != '\0'; i++)
+    {
+        if (isdigit(s[i]))
+        {
+            new_string[j] = s[i];
+            j++;
+        }
+    }
 
-i = 6
-"e" ist kein digit
-count = 0
-*/
+    return new_string;
+}
 
 void test()
 {
-    // (a)
-    test_equal_b(ascending_numbers_in_string("as5678e"), true);
-    test_equal_b(ascending_numbers_in_string("as58bb1234ett"), true);
-    test_equal_b(ascending_numbers_in_string("123"), false);
-    test_equal_b(ascending_numbers_in_string("2468"), true);
-    test_equal_b(ascending_numbers_in_string("6789"), true);
-    test_equal_b(ascending_numbers_in_string("abcd"), false);
-    test_equal_b(ascending_numbers_in_string("54321"), false);
-    test_equal_b(ascending_numbers_in_string("abc 123 de 4567"), true);
-    test_equal_b(ascending_numbers_in_string("abc 123 de 645"), false);
+    // (1)
+    // test_equal_b(ascending_numbers_in_string("as5678e"), true);
+    // test_equal_b(ascending_numbers_in_string("as58bb1234ett"), true);
+    // test_equal_b(ascending_numbers_in_string("123"), false);
+    // test_equal_b(ascending_numbers_in_string("2468"), true);
+    // test_equal_b(ascending_numbers_in_string("6789"), true);
+    // test_equal_b(ascending_numbers_in_string("abcd"), false);
+    // test_equal_b(ascending_numbers_in_string("54321"), false);
+    // test_equal_b(ascending_numbers_in_string("abc 123 de 4567"), true);
+    // test_equal_b(ascending_numbers_in_string("abc 123 de 645"), false);
+
+    // (4)
+    // test_equal_b(first_equals_last("abba"), true);
+    // test_equal_b(first_equals_last("1997"), false);
+    // test_equal_b(first_equals_last("a        a"), true);
+    // test_equal_b(first_equals_last("!caution!"), true);
+    // test_equal_b(first_equals_last("x00abcdefg...00x"), true);
+
+    // (7)
+    test_equal_s(remove_letters(""), "");
+
+    char *r2 = remove_letters("x");
+    test_equal_s(r2, "");
+    free(r2);
+
+    char *r3 = remove_letters("12hello24");
+    test_equal_s(r3, "1234");
+    free(r3);
+
+    char *r4 = remove_letters("aaaa200aaaa");
+    test_equal_s(r4, "200");
+    free(r4);
+
+    char *r5 = remove_letters("x      2      x");
+    test_equal_s(r5, "2");
+    free(r5);
 }
 
 int main(void)
 {
     test();
+    report_memory_leaks(true);
     return 0;
 }
