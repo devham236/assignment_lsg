@@ -103,7 +103,7 @@ void test()
     free(r2);
 
     char *r3 = remove_letters("12hello24");
-    test_equal_s(r3, "1234");
+    test_equal_s(r3, "1224");
     free(r3);
 
     char *r4 = remove_letters("aaaa200aaaa");
