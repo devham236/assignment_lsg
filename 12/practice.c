@@ -75,6 +75,40 @@ char *remove_letters(char *s)
     return new_string;
 }
 
+// (8)
+bool upper(char c)
+{
+    return c >= 'A' && c <= 'Z';
+}
+
+bool lower(char c)
+{
+    return c >= 'a' && c <= 'z';
+}
+
+char *auto_correct_cases(char *s)
+{
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (!upper(s[0]))
+        {
+            s[0] = toupper(s[0]);
+        }
+
+        if (s[i] == ' ')
+        {
+            s[i + 1] = toupper(s[i + 1]);
+        }
+
+        if (i > 0 && s[i - 1] != ' ' && isalpha(s[i]))
+        {
+            s[i] = tolower(s[i]);
+        }
+    }
+
+    return s;
+}
+
 void test()
 {
     // (1)
@@ -96,28 +130,40 @@ void test()
     // test_equal_b(first_equals_last("x00abcdefg...00x"), true);
 
     // (7)
-    test_equal_s(remove_letters(""), "");
+    // test_equal_s(remove_letters(""), "");
 
-    char *r2 = remove_letters("x");
-    test_equal_s(r2, "");
-    free(r2);
+    // char *r2 = remove_letters("x");
+    // test_equal_s(r2, "");
+    // free(r2);
 
-    char *r3 = remove_letters("12hello24");
-    test_equal_s(r3, "1224");
-    free(r3);
+    // char *r3 = remove_letters("12hello24");
+    // test_equal_s(r3, "1224");
+    // free(r3);
 
-    char *r4 = remove_letters("aaaa200aaaa");
-    test_equal_s(r4, "200");
-    free(r4);
+    // char *r4 = remove_letters("aaaa200aaaa");
+    // test_equal_s(r4, "200");
+    // free(r4);
 
-    char *r5 = remove_letters("x      2      x");
-    test_equal_s(r5, "2");
-    free(r5);
+    // char *r5 = remove_letters("x      2      x");
+    // test_equal_s(r5, "2");
+    // free(r5);
+
+    // (8)
+    char input1[] = "hELLO wORLD";
+    test_equal_s(auto_correct_cases(input1), "Hello World");
+
+    char input2[] = "HELLO WORLD";
+    test_equal_s(auto_correct_cases(input2), "Hello World");
+
+    char input3[] = "hERJEJWENF eEFJKJJFN";
+    test_equal_s(auto_correct_cases(input3), "Herjejwenf Eefjkjjfn");
+
+    char input4[] = "abc123 DEF456";
+    test_equal_s(auto_correct_cases(input4), "Abc123 Def456");
 }
 
 int main(void)
 {
     test();
-    report_memory_leaks(true);
     return 0;
 }
