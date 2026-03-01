@@ -109,6 +109,57 @@ char *auto_correct_cases(char *s)
     return s;
 }
 
+// (9)
+char *reverse_string(char *s)
+{
+    int left = 0;
+    int right = s_length(s) - 1;
+
+    while (left < right)
+    {
+        char curr_left = s[left];
+        char curr_right = s[right];
+
+        s[left] = curr_right;
+        left++;
+
+        s[right] = curr_left;
+        right--;
+    }
+
+    return s;
+}
+
+// (10)
+char *remove_char_from_string(char *s, char t)
+{
+    int count = 0;
+
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (s[i] != t)
+        {
+            count++;
+        }
+    }
+
+    char *new_string = xmalloc(count + 1);
+    new_string[count] = '\0';
+
+    for (int i = 0, j = 0; s[i] != '\0'; i++)
+    {
+        if (s[i] != t)
+        {
+            new_string[j] = s[i];
+            j++;
+        }
+    }
+
+    printf("%s \n", new_string);
+
+    return new_string;
+}
+
 void test()
 {
     // (1)
@@ -149,17 +200,47 @@ void test()
     // free(r5);
 
     // (8)
-    char input1[] = "hELLO wORLD";
-    test_equal_s(auto_correct_cases(input1), "Hello World");
+    // char input1[] = "hELLO wORLD";
+    // test_equal_s(auto_correct_cases(input1), "Hello World");
 
-    char input2[] = "HELLO WORLD";
-    test_equal_s(auto_correct_cases(input2), "Hello World");
+    // char input2[] = "HELLO WORLD";
+    // test_equal_s(auto_correct_cases(input2), "Hello World");
 
-    char input3[] = "hERJEJWENF eEFJKJJFN";
-    test_equal_s(auto_correct_cases(input3), "Herjejwenf Eefjkjjfn");
+    // char input3[] = "hERJEJWENF eEFJKJJFN";
+    // test_equal_s(auto_correct_cases(input3), "Herjejwenf Eefjkjjfn");
 
-    char input4[] = "abc123 DEF456";
-    test_equal_s(auto_correct_cases(input4), "Abc123 Def456");
+    // char input4[] = "abc123 DEF456";
+    // test_equal_s(auto_correct_cases(input4), "Abc123 Def456");
+
+    // (9)
+    // char input1[] = "Hello World";
+    // test_equal_s(reverse_string(input1), "dlroW olleH");
+
+    // char input2[] = "ab cd ef g";
+    // test_equal_s(reverse_string(input2), "g fe dc ba");
+
+    // char input3[] = "    ";
+    // test_equal_s(reverse_string(input3), "    ");
+
+    // char input4[] = "1234abc5678";
+    // test_equal_s(reverse_string(input4), "8765cba4321");
+
+    // (10)
+    char *s1 = "ReeeA";
+    char t1 = 'R';
+    test_equal_s(remove_char_from_string(s1, t1), "eeeA");
+
+    char *s2 = "Hello";
+    char t2 = 'l';
+    test_equal_s(remove_char_from_string(s2, t2), "Heo");
+
+    char *s3 = "F*ck you!";
+    char t3 = '*';
+    test_equal_s(remove_char_from_string(s3, t3), "Fck you!");
+
+    char *s4 = "12345xx6789";
+    char t4 = 'x';
+    test_equal_s(remove_char_from_string(s4, t4), "123456789");
 }
 
 int main(void)
