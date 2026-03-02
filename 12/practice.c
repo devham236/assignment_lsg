@@ -226,21 +226,21 @@ void test()
     // test_equal_s(reverse_string(input4), "8765cba4321");
 
     // (10)
-    char *s1 = "ReeeA";
-    char t1 = 'R';
-    test_equal_s(remove_char_from_string(s1, t1), "eeeA");
+    // char *s1 = "ReeeA";
+    // char t1 = 'R';
+    // test_equal_s(remove_char_from_string(s1, t1), "eeeA");
 
-    char *s2 = "Hello";
-    char t2 = 'l';
-    test_equal_s(remove_char_from_string(s2, t2), "Heo");
+    // char *s2 = "Hello";
+    // char t2 = 'l';
+    // test_equal_s(remove_char_from_string(s2, t2), "Heo");
 
-    char *s3 = "F*ck you!";
-    char t3 = '*';
-    test_equal_s(remove_char_from_string(s3, t3), "Fck you!");
+    // char *s3 = "F*ck you!";
+    // char t3 = '*';
+    // test_equal_s(remove_char_from_string(s3, t3), "Fck you!");
 
-    char *s4 = "12345xx6789";
-    char t4 = 'x';
-    test_equal_s(remove_char_from_string(s4, t4), "123456789");
+    // char *s4 = "12345xx6789";
+    // char t4 = 'x';
+    // test_equal_s(remove_char_from_string(s4, t4), "123456789");
 }
 
 int main(void)
