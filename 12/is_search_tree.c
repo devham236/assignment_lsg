@@ -122,29 +122,23 @@ void print_tree(Tree *tree)
 
 /** Returns true if this is a search tree. Returns false otherwise.
  * May need a helper method. */
-bool is_search_tree_recursive(Node *node, int min, int max)
+bool is_search_tree(Tree *tree)
+{
+	return true;
+}
+
+void print_in_order(Node *node)
 {
 	if (node == NULL)
 	{
-		return true;
+		return;
 	}
 
-	if (node->left <= min || node->right >= max)
-	{
-		return false;
-	}
+	print_in_order(node->left);
 
-	return is_search_tree_recursive(node->left, min, node->value) && is_search_tree_recursive(node->right, node->value, max);
-}
+	printf("%d, ", node->value);
 
-bool is_search_tree(Tree *tree)
-{
-	if (tree == NULL || tree->root == NULL)
-	{
-		return true;
-	}
-
-	return is_search_tree_recursive(tree->root, -1000000, 1000000);
+	print_in_order(node->right);
 }
 
 /*
@@ -199,19 +193,6 @@ new_node(new_node(NULL, 10, NULL), 20, new_node(NULL, 30, NULL)) würde einen Kn
 - Hier kommt auch nichts mehr
 - Gesamter Funktionsaufruf beendet
 */
-void print_in_order(Node *node)
-{
-	if (node == NULL)
-	{
-		return;
-	}
-
-	print_in_order(node->left);
-
-	printf("%d, ", node->value);
-
-	print_in_order(node->right);
-}
 
 void test()
 {
