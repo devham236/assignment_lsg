@@ -127,20 +127,6 @@ bool is_search_tree(Tree *tree)
 	return true;
 }
 
-void print_in_order(Node *node)
-{
-	if (node == NULL)
-	{
-		return;
-	}
-
-	print_in_order(node->left);
-
-	printf("%d, ", node->value);
-
-	print_in_order(node->right);
-}
-
 /*
 Pre-Order, In-Order und Post-Order kennst du schon von DUA. Wenn das print vor den rekursiven Aufrufen steht
 dann ist es Pre-Order, wenn es zwischen den Aufrufen steht dann ist es In-Order und wenn es nach den Aufrufen steht dann ist es Post-Order.
@@ -193,6 +179,20 @@ new_node(new_node(NULL, 10, NULL), 20, new_node(NULL, 30, NULL)) würde einen Kn
 - Hier kommt auch nichts mehr
 - Gesamter Funktionsaufruf beendet
 */
+
+void print_in_order(Node *node)
+{
+	if (node == NULL)
+	{
+		return;
+	}
+
+	print_in_order(node->left);
+
+	printf("%d, ", node->value);
+
+	print_in_order(node->right);
+}
 
 void test()
 {
