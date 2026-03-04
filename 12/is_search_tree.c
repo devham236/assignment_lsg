@@ -3,7 +3,7 @@ Compile: make is_search_tree
 Run: ./is_search_tree
 Compile & run: make is_search_tree && ./is_search_tree
 */
-
+#include <limits.h>
 #include "base.h"
 
 /*
@@ -120,13 +120,6 @@ void print_tree(Tree *tree)
 	printf("\n");
 }
 
-/** Returns true if this is a search tree. Returns false otherwise.
- * May need a helper method. */
-bool is_search_tree(Tree *tree)
-{
-	return true;
-}
-
 /*
 Pre-Order, In-Order und Post-Order kennst du schon von DUA. Wenn das print vor den rekursiven Aufrufen steht
 dann ist es Pre-Order, wenn es zwischen den Aufrufen steht dann ist es In-Order und wenn es nach den Aufrufen steht dann ist es Post-Order.
@@ -192,6 +185,53 @@ void print_in_order(Node *node)
 	printf("%d, ", node->value);
 
 	print_in_order(node->right);
+}
+
+/** Returns true if this is a search tree. Returns false otherwise.
+ * May need a helper method. */
+
+/*
+Geht rekursiv durch den Baum und schaut ob dieser gültig ist. Wichtig ist, dass das min und max beim links und rechts
+gehen von der Wurzel mitgenommen wird. Wir haben eine Helper Funktion erstellt, weil die Hauptfunktion nur einen (Tree* tree) pointer übergeben
+bekommt. Dieser hat nur die root node auf die du zugreifen kannst.
+
+Zum Beispiel: Ungultiger Baum (9 ist größer als Wurzel, ist aber links von der Wurzel)
+
+		 8
+		/ \
+	   7    N
+	 /  \  /  \
+	 6   9  N  N
+	/ \  /\
+   N   N N N
+
+
+*/
+bool is_search_tree_recursive(Node *node, int min, int max)
+{
+	if (node == NULL)
+	{
+		return true;
+	}
+
+	bool left_is_ok = is_search_tree_recursive(node->left, min, node->value);
+	bool right_is_ok = is_search_tree_recursive(node->right, node->value, max);
+
+	if (node->value > min && node->value < max && left_is_ok && right_is_ok)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool is_search_tree(Tree *tree)
+{
+	return is_search_tree_recursive(tree->root, INT_MIN, INT_MAX);
 }
 
 void test()
@@ -281,10 +321,6 @@ void test()
 	t = new_tree(new_node(new_node(NULL, 50, NULL), 100, NULL));
 	test_equal_b(is_search_tree(t), true);
 	free_tree(t);
-
-	Node *n = new_node(new_node(NULL, 10, NULL), 20, new_node(NULL, 30, NULL));
-	print_in_order(n);
-	free_node(n);
 }
 
 int main(void)
