@@ -134,31 +134,37 @@ new_node(new_node(NULL, 10, NULL), 20, new_node(NULL, 30, NULL)) würde einen Kn
 	/  \  /  \
    N   N N    N
 
+1):
 - Die Funktion wird für den Knoten 20 aufgerufen
 - node ist nicht NULL
 - print_in_order(node->left) wird ausgeführt, also "gehe zur 10, links von der 20"
 - Die 20 pausiert jetzt und wartet
 
+2):
 - Neue Instanz der Funktion mit dem Knoten 10 startet
 - node ist nicht NULL
 - print_in_order(node->left) wird ausgeführt, also "gehe zum linken NULL von 10"
 - Die 10 pausiert und wartet
 
+3):
 - Funktion startet mit NULL
 - node ist gleich NULL
 - Die Funktion macht "return", wird also beendet.
 
+4):
 - Wir sind jetzt wieder zurück bei der Funktionsinstanz mit der 10
 - print Befehl wird ausgeführt und die 10 wird ausgegeben.
 - print_in_order(node->right) wird ausgeführt, also "gehe zum rechten NULL von 10"
 - Der Aufruf von NULL returned wieder und man ist zurück bei der 10
 - Der Aufruf mit der 10 ist jetzt beendet
 
+5):
 - Wir sind jetzt wieder bei der Funktionsinstanz mit der 20
 - print Befehl wird ausgeführt und die 20 wird ausgegeben.
 - print_in_order(node->right) wird ausgeführt, also "gehe zur 30, rechts von der 20"
 - Die 20 pausiert wieder und wartet.
 
+6):
 - Funktion startet mit der 30
 - node ist nicht NULL
 - print_in_order(node->left) wird ausgeführt, also "gehe zu NULL, links von der 30"
@@ -168,6 +174,7 @@ new_node(new_node(NULL, 10, NULL), 20, new_node(NULL, 30, NULL)) würde einen Kn
 - Kommt direkt wieder zurück
 - Aufruf mit 30 ist beendet
 
+7):
 - Wir sind wieder bei der 20
 - Hier kommt auch nichts mehr
 - Gesamter Funktionsaufruf beendet
@@ -204,6 +211,24 @@ Zum Beispiel: Ungultiger Baum (9 ist größer als Wurzel, ist aber links von der
 	 6   9  N  N
 	/ \  /\
    N   N N N
+
+1): Funktion startet mit der Wurzel 8, min = INT_MIN, max = INT_MAX. 8 ist nicht NULL.
+	Ruft links (7) auf. 8 pausiert.
+2): 7 ist nicht NULL. Ruft links (6) auf. 7 pausiert.
+3): 6 ist nicht NULL. Ruft links (NULL) auf. 6 pausiert.
+4): NULL ist NULL -> liefert true zurück zur 6.
+5): 6 ruft rechts (NULL) auf. 6 pausiert wieder.
+6): NULL ist NULL -> liefert true zurück zur 6.
+7): 6 ist > min und < 7, beide Kinder true -> 6 liefert true zurück zur 7.
+8): Wir sind zurück bei der 7. left_is_ok ist true. 7 ruft rechts (9) auf. 7 pausiert.
+9): 9 ist nicht NULL. Ruft links (NULL) auf. 9 pausiert.
+10): NULL liefert true zurück zur 9.
+11): 9 ruft rechts (NULL) auf. 9 pausiert.
+12): NULL liefert true zurück zur 9.
+13): Prüfung der 9: 9 ist > 7 (min), aber NICHT < 8 (max).
+	 Bedingung schlägt fehl -> liefert false zurück zur 7.
+14): Bei der 7 ist right_is_ok nun false. 7 liefert false zurück zur 8.
+15): Bei der Wurzel 8 ist left_is_ok nun false -> Gesamtergebnis false.
 
 
 */
