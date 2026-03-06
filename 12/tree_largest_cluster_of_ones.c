@@ -161,6 +161,35 @@ void test(void)
            / \     / \
           1   1   1   1
     */
+
+    Tree *t7 = new_tree(
+        new_tree(
+            new_tree(
+                new_tree(NULL, 1, NULL),
+                1,
+                new_tree(NULL, 1, NULL)),
+            1,
+            new_tree(NULL, 0, NULL)),
+        0,
+        new_tree(
+            NULL,
+            0,
+            new_tree(
+                new_tree(NULL, 1, NULL),
+                1,
+                new_tree(NULL, 1, NULL))));
+    test_equal_i(largest_cluster_of_ones(t7), 0);
+    /*
+                0
+               / \
+              1   0
+             / \   \
+            1   0   0
+           / \     / \
+          1   1   1   1
+                 / \
+                1   1
+    */
 }
 
 int main(void)
