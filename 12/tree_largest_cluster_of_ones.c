@@ -27,7 +27,7 @@ int largest_cluster_of_ones_recursive(Tree *tree, int count)
 {
     if (tree == NULL)
     {
-        return 0;
+        return count;
     }
 
     if (tree->value == 0)
@@ -35,14 +35,14 @@ int largest_cluster_of_ones_recursive(Tree *tree, int count)
         return 0;
     }
 
-    int left_tree = largest_cluster_of_ones_recursive(tree->left, count);
-
     if (tree->value == 1)
     {
         count++;
     }
 
-    return count;
+    int left_tree = largest_cluster_of_ones_recursive(tree->left, count);
+
+    return left_tree;
 }
 
 // <purpose statement>
@@ -60,12 +60,12 @@ void test(void)
         1
     */
 
-    Tree *t2 = new_tree(new_tree(NULL, 0, NULL), 1, NULL);
+    Tree *t2 = new_tree(new_tree(NULL, 1, NULL), 1, NULL);
     test_equal_i(largest_cluster_of_ones(t2), 2);
     /*
           1
          /
-        0
+        1
     */
 
     // Tree *t3 = new_tree(
