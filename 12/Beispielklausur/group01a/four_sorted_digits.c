@@ -7,15 +7,46 @@ make four_sorted_digits && ./four_sorted_digits
 
 #include "base.h"
 
-bool is_digit(char c) {
+bool is_digit(char c)
+{
     return c >= '0' && c <= '9';
 }
 
-bool has_4_or_more_sorted_digits(char* s) {
+bool has_4_or_more_sorted_digits(char *s)
+{
+    int count = 0;
+
+    if (s_length(s) < 4)
+    {
+        return false;
+    }
+
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (is_digit(s[i]) && i > 0 && is_digit(s[i - 1]) && s[i] >= s[i - 1] + 1)
+        {
+            count++;
+        }
+        else if (is_digit(s[i]))
+        {
+            count = 1;
+        }
+        else
+        {
+            count = 0;
+        }
+
+        if (count >= 4)
+        {
+            return true;
+        }
+    }
+
     return false;
 }
 
-void test(void) {
+void test(void)
+{
     test_equal_b(has_4_or_more_sorted_digits(""), false);
     test_equal_b(has_4_or_more_sorted_digits("000"), false);
     test_equal_b(has_4_or_more_sorted_digits("xxxx"), false);
@@ -36,7 +67,8 @@ void test(void) {
     test_equal_b(has_4_or_more_sorted_digits("24689"), true);
 }
 
-int main(void) {
+int main(void)
+{
     test();
     return 0;
 }
