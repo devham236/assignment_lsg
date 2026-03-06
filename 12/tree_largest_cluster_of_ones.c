@@ -30,19 +30,20 @@ int largest_cluster_of_ones_recursive(Tree *tree, int count)
         return count;
     }
 
-    if (tree->value == 0)
+    else if (tree->value == 0)
     {
-        return 0;
+        return count;
     }
 
-    if (tree->value == 1)
+    else if (tree->value == 1)
     {
         count++;
     }
 
     int left_tree = largest_cluster_of_ones_recursive(tree->left, count);
+    int right_tree = largest_cluster_of_ones_recursive(tree->right, left_tree);
 
-    return left_tree;
+    return right_tree;
 }
 
 // <purpose statement>
@@ -54,6 +55,7 @@ int largest_cluster_of_ones(Tree *root)
 
 void test(void)
 {
+
     Tree *t1 = new_tree(NULL, 1, NULL);
     test_equal_i(largest_cluster_of_ones(t1), 1);
     /*
@@ -68,46 +70,25 @@ void test(void)
         1
     */
 
-    // Tree *t3 = new_tree(
-    //     new_tree(
-    //         new_tree(
-    //             new_tree(NULL, 1, NULL),
-    //             1,
-    //             new_tree(NULL, 1, NULL)),
-    //         1,
-    //         new_tree(NULL, 0, NULL)),
-    //     0,
-    //     new_tree(
-    //         NULL,
-    //         0,
-    //         new_tree(
-    //             new_tree(NULL, 1, NULL),
-    //             1,
-    //             new_tree(NULL, 1, NULL))));
-    // test_equal_i(largest_cluster_of_ones(t3), 0);
+    Tree *t2_5 = new_tree(new_tree(NULL, 1, NULL), 1, new_tree(NULL, 0, NULL));
+    test_equal_i(largest_cluster_of_ones(t2_5), 2);
     /*
-                0
-               / \
-              1   0
-             / \   \
-            1   0   0
-           / \     / \
-          1   1   1   1
-                 / \
-                1   1
+          1
+         / \
+        1   0
     */
 
-    // Tree *t4 = new_tree(
-    //     new_tree(
-    //         new_tree(NULL, 1, NULL),
-    //         0,
-    //         new_tree(NULL, 1, NULL)),
-    //     1,
-    //     new_tree(
-    //         new_tree(NULL, 1, NULL),
-    //         1,
-    //         new_tree(NULL, 1, NULL)));
-    // test_equal_i(largest_cluster_of_ones(t4), 4);
+    Tree *t3 = new_tree(
+        new_tree(
+            new_tree(NULL, 1, NULL),
+            0,
+            new_tree(NULL, 1, NULL)),
+        1,
+        new_tree(
+            new_tree(NULL, 1, NULL),
+            1,
+            new_tree(NULL, 1, NULL)));
+    test_equal_i(largest_cluster_of_ones(t3), 4);
     /*
                 1 (Wurzel)
                / \
@@ -116,17 +97,17 @@ void test(void)
             1  1 1  1
     */
 
-    // Tree *t5 = new_tree(
-    //     new_tree(
-    //         new_tree(NULL, 0, NULL),
-    //         1,
-    //         new_tree(NULL, 1, NULL)),
-    //     1,
-    //     new_tree(
-    //         new_tree(NULL, 1, NULL),
-    //         0,
-    //         new_tree(NULL, 1, NULL)));
-    // test_equal_i(largest_cluster_of_ones(t5), 3);
+    Tree *t4 = new_tree(
+        new_tree(
+            new_tree(NULL, 0, NULL),
+            1,
+            new_tree(NULL, 1, NULL)),
+        1,
+        new_tree(
+            new_tree(NULL, 1, NULL),
+            0,
+            new_tree(NULL, 1, NULL)));
+    test_equal_i(largest_cluster_of_ones(t4), 3);
     /*
                 1
                / \
@@ -135,17 +116,17 @@ void test(void)
             0  1 1  1
     */
 
-    // Tree *t6 = new_tree(
-    //     new_tree(
-    //         new_tree(NULL, 0, NULL),
-    //         1,
-    //         new_tree(NULL, 1, NULL)),
-    //     1,
-    //     new_tree(
-    //         new_tree(NULL, 1, NULL),
-    //         1,
-    //         new_tree(NULL, 0, NULL)));
-    // test_equal_i(largest_cluster_of_ones(t6), 5);
+    Tree *t5 = new_tree(
+        new_tree(
+            new_tree(NULL, 0, NULL),
+            1,
+            new_tree(NULL, 1, NULL)),
+        1,
+        new_tree(
+            new_tree(NULL, 1, NULL),
+            1,
+            new_tree(NULL, 0, NULL)));
+    test_equal_i(largest_cluster_of_ones(t5), 5);
     /*
                 1
                / \
@@ -154,23 +135,23 @@ void test(void)
             0  1 1  0
     */
 
-    // Tree *t7 = new_tree(
-    //     new_tree(
-    //         new_tree(
-    //             new_tree(NULL, 1, NULL),
-    //             0,
-    //             new_tree(NULL, 1, NULL)),
-    //         1,
-    //         new_tree(NULL, 0, NULL)),
-    //     1,
-    //     new_tree(
-    //         NULL,
-    //         0,
-    //         new_tree(
-    //             new_tree(NULL, 1, NULL),
-    //             1,
-    //             new_tree(NULL, 1, NULL))));
-    // test_equal_i(largest_cluster_of_ones(t7), 2);
+    Tree *t6 = new_tree(
+        new_tree(
+            new_tree(
+                new_tree(NULL, 1, NULL),
+                0,
+                new_tree(NULL, 1, NULL)),
+            1,
+            new_tree(NULL, 0, NULL)),
+        1,
+        new_tree(
+            NULL,
+            0,
+            new_tree(
+                new_tree(NULL, 1, NULL),
+                1,
+                new_tree(NULL, 1, NULL))));
+    test_equal_i(largest_cluster_of_ones(t6), 2);
     /*
                 1
                / \
