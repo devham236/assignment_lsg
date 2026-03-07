@@ -82,9 +82,9 @@ void test()
     double res_3[5] = {2., 0., 10., 5., -5.};
     test_equal_array(calculate(1, op_3, 5), res_3, 5);
 
-    // Operation op_4[4] = {{2., OP_MUL}, {10., OP_SET}, {2., OP_DIV}, {20., OP_MUL}};
-    // double res_4[4] = {0., 10., 5., 100.};
-    // test_equal_array(calculate(0, op_4, 4), res_4, 4);
+    Operation op_4[4] = {{2., OP_MUL}, {10., OP_SET}, {2., OP_DIV}, {20., OP_MUL}};
+    double res_4[4] = {0., 10., 5., 100.};
+    test_equal_array(calculate(0, op_4, 4), res_4, 4);
 }
 
 int main()
