@@ -61,13 +61,17 @@ result.data[2 * 2 + 0] = result.data[4] = value
 3) i=1, j=0
 double value = m.data[1 * 3 + 0] = m.data[3] = 4
 result.data[0 * 2 + 1] = result.data[1] = value
+
+i * m.cols bringt dich an den Anfang Zeile die du benötigst und + j geht innerhalb der aktuellen Zeile die Schritte nach rechts,
+um die richtige Spalte zu finden
+
+Und weil wir ja die Matrix transponieren wollen, vertauschen wir i und j in der Berechnung des Index von result.
 */
 Matrix transpose(Matrix m)
 {
     Matrix result;
     result.rows = m.cols;
     result.cols = m.rows;
-
     result.data = xmalloc(result.rows * result.cols * sizeof(double));
 
     for (int i = 0; i < m.rows; i++)
