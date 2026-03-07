@@ -6,14 +6,23 @@ make palindrome && ./palindrome
 
 #include "base.h"
 
+String alphabet = "abcdefghijklmnopqrstuvwxyz";
 /**
 (a) Todo: Implement.
 Return whether a character is in the alphabet
 */
-bool is_in_alphabet(char c) {
-    
+bool is_in_alphabet(char c)
+{
+    int lower_case_char = tolower(c);
+
     // TODO implement
-    
+    for (int i = 0; i < strlen(alphabet); i++)
+    {
+        /* code */
+        if (lower_case_char == alphabet[i])
+            return true;
+    }
+
     return false;
 }
 
@@ -21,57 +30,219 @@ bool is_in_alphabet(char c) {
 (b) Todo: Implement.
 Return whether a String is a palindrome
 */
-bool is_palindrome(char* s) {
-    
+bool is_palindrome(char *s)
+{
     // TODO implement
-    
-    return false;
+    int str_length = strlen(s);
+
+    if (str_length == 0)
+    {
+        return false;
+    }
+
+    int left = 0;
+    int right = str_length - 1;
+
+    while (left < right)
+    {
+
+        if (!is_in_alphabet(s[left]))
+        {
+            left++;
+            continue;
+        }
+
+        if (!is_in_alphabet(s[right]))
+        {
+            right--;
+            continue;
+        }
+        /*
+        Wenn s[left] oder s[right] nicht im Alphabet ist wird um einen erhöht/verringert und man springt durch "continue" an den Anfang der while Schleife.
+
+        Zum Beispiel bei "shower." ist left = 0 (s[left] = s) und right = 6 (s[right] = .). Beim ersten Durchlauf ist s[left] im Alphabet, s[right] aber nicht, also wird right um einen verringert und man springt an den Anfang der while Schleife, s[left] ist immernoch gleich s, s[right] ist jetzt aber r
+        */
+        if (s[left] != s[right])
+        {
+            return false;
+        }
+
+        else
+        {
+            left++;
+            right--;
+        }
+    }
+
+    return true;
 }
 
 /**
 (c) Todo: Implement.
 Return whether a String contains at least one palindrome of minimum size minimum_palindrome_size
 */
-bool contains_palindrome(char* s, int minimum_palindrome_size) {    
-    
+bool contains_palindrome(char *s, int minimum_palindrome_size)
+{
     // TODO implement
-    
+    for (int i = 0; i < strlen(s); i++)
+    {
+        for (int j = minimum_palindrome_size; j + i <= strlen(s); j++)
+        {
+            char test[j + 1];       // Der Teilstring muss minimum_palindrome_size haben und die terminierende null '\0', deswegen plus 1
+            memcpy(test, &s[i], j); // '&s[i]' zeigt auf die Adresse des Zeichens an Index i im string s
+            test[j] = '\0';         // memcpy kümmert sich nicht um das 0-Byte, deswegen musst man es manuell einfügen.
+
+            if (is_palindrome(test))
+            {
+                return true;
+            }
+        }
+    }
     return false;
+
+    /*
+    Der äußere for loop bestimmt bei welchem index des strings geschaut werden soll ob ein Palindrome mit der minimum_palindrome_size vorliegt.
+    Der innere loop kopiert die ersten j Zeichen, vom aktuellen Index, aus dem String und überprüft ob ein Palindrome vorliegt.
+
+    Zum Beispiel: "test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);"
+    Der String hat mindestens ein Palindrom mit 3 oder mehr character.
+    Äußere Schleife ist bei i = 0, also bei char 'm'. Innere Schleife kopiert jetzt die character 0-3, also "mad", in das array und schaut mit der if Abfrage ob das ein Palindrome ist.
+    "mad" ist kein Palindrome, also erhöht sich j um 1. Jetzt kopiert der innere loop, "mada" in das test array und schaut ob das ein Palindrome.
+    "mada" ist auch kein Palindrome, also erhöht sich j wieder um 1. Jetzt kopiert der innere loop "madam" in das test array und schaut ob ein Palindrome vorliegt.
+    "madam" ist ein Palindrome, die if Abfrage gibt ein true wieder und die beiden loops werden beendet. Den Rest des Strings muss man nicht mehr beachten, weil ja ein Palindrome mit Größe 3 schon gefunden wurde.
+
+    Die äußere Schleife wird erst um 1 erhöht, bzw. geht erst ein Index weiter im String, wenn die innere Schleife die Abbruchbedingung erreicht, also wenn der zu überprüfende Teilstring länger ist als der string selbst.
+    */
 }
 
+/*****************ZUSATZAUFGABEN*****************/
 
+// (e)
+int string_length(char *s)
+{
+    int count = 0;
 
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (s[i] == ' ')
+        {
+            continue;
+        }
+        count++;
+    }
 
-void test(void) {
+    return count;
+}
+
+/*****************KLAUSURAUFGABEN*****************/
+
+// Remove Digits
+bool isDigit(char c)
+{
+    return c <= '9' && c >= '0';
+}
+
+char *removeDigits(char *s)
+{
+    int count = 0;
+
+    // erster loop sagt dir wie viel Speicherplatz du für deinen string brauchst
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (!isDigit(s[i]))
+        {
+            count++;
+        }
+    }
+
+    char *new_string = xmalloc(count + 1);
+    new_string[count] = '\0';
+
+    // zweiter loop legt an den jeweiligen indices die chars an.
+    for (int i = 0, j = 0; s[i] != '\0'; i++)
+    {
+        if (!isDigit(s[i]))
+        {
+            new_string[j] = s[i];
+            j++;
+        }
+    }
+
+    return new_string;
+}
+
+void test(void)
+{
     // (a)
-    test_equal_b(is_in_alphabet('a'), true);
-    test_equal_b(is_in_alphabet('y'), true);
-    test_equal_b(is_in_alphabet('B'), true);
-    test_equal_b(is_in_alphabet('X'), true);
-    test_equal_b(is_in_alphabet(' '), false);
-    test_equal_b(is_in_alphabet('.'), false);
-    test_equal_b(is_in_alphabet('{'), false);
-    
+    // test_equal_b(is_in_alphabet('a'), true);
+    // test_equal_b(is_in_alphabet('y'), true);
+    // test_equal_b(is_in_alphabet('B'), true);
+    // test_equal_b(is_in_alphabet('X'), true);
+    // test_equal_b(is_in_alphabet(' '), false);
+    // test_equal_b(is_in_alphabet('.'), false);
+    // test_equal_b(is_in_alphabet('{'), false);
+
     // (b)
-    test_equal_b(is_palindrome("hello world"), false);
-    test_equal_b(is_palindrome("anna"), true);
-    test_equal_b(is_palindrome(""), false);
-    test_equal_b(is_palindrome("shower."), false);
-    test_equal_b(is_palindrome("madam ?"), true);
-    test_equal_b(is_palindrome("nurses run"), true);
-    
+    // test_equal_b(is_palindrome("hello world"), false);
+    // test_equal_b(is_palindrome("anna"), true);
+    // test_equal_b(is_palindrome(""), false);
+    // test_equal_b(is_palindrome("shower."), false);
+    // test_equal_b(is_palindrome("madam ?"), true);
+    // test_equal_b(is_palindrome("nurses run"), true);
+
     // (c)
-    test_equal_b(contains_palindrome("hello world", 5), false);
-    test_equal_b(contains_palindrome("hello world", 3), true);
-    test_equal_b(contains_palindrome("anna", 3), true);
-    test_equal_b(contains_palindrome("", 0), false);
-    test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
-    test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
-    test_equal_b(contains_palindrome("nurses run", 4), true);
-    
+    // test_equal_b(contains_palindrome("hello world", 5), false);
+    // test_equal_b(contains_palindrome("hello world", 3), true);
+    // test_equal_b(contains_palindrome("anna", 3), true);
+    // test_equal_b(contains_palindrome("", 0), false);
+    // test_equal_b(contains_palindrome("shower thoughts by madam anna", 4), true);
+    // test_equal_b(contains_palindrome("madam anna is a nurse", 3), true);
+    // test_equal_b(contains_palindrome("nurses run", 4), true);
+
+    /*****************ZUSATZAUFGABEN*****************/
+
+    // (e)
+    // test_equal_i(string_length("hello"), 5);
+    // test_equal_i(string_length("hello world"), 10);
+    // test_equal_i(string_length("1234567"), 7);
+    // test_equal_i(string_length("h i , t h e r e !"), 9);
+    // test_equal_i(string_length(""), 0);
+
+    /*****************KLAUSURAUFGABEN*****************/
+
+    // remove Digits
+    // char *s1 = removeDigits("");
+    // test_equal_s(s1, "");
+    // free(s1);
+
+    // char *s2 = removeDigits("x");
+    // test_equal_s(s2, "x");
+    // free(s2);
+
+    // char *s3 = removeDigits("11");
+    // test_equal_s(s3, "");
+    // free(s3);
+
+    // char *s4 = removeDigits("1x1x");
+    // test_equal_s(s4, "xx");
+    // free(s4);
+
+    // char *s5 = removeDigits("111x111");
+    // test_equal_s(s5, "x");
+    // free(s5);
+
+    // char *s6 = removeDigits("1a2b3c4");
+    // test_equal_s(s6, "abc");
+    // free(s6);
+
+    // char *s7 = removeDigits("101191xk");
+    // test_equal_s(s7, "xk");
+    // free(s7);
 }
 
-int main(void) {
+int main(void)
+{
     test();
+    report_memory_leaks(true);
     return 0;
 }
