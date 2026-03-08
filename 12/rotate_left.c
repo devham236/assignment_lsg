@@ -6,26 +6,19 @@ void rotate_array_left(int *a, int n)
     require_not_null(a);
     require("not negative", n >= 0);
 
-    if (n == 1)
+    if (n <= 1)
     {
-        a[0] = *a;
+        return;
     }
 
     int first_val = a[0];
 
-    for (int i = 0; i <= n - 1; i++)
+    for (int i = 0; i < n - 1; i++)
     {
-        if (i == n - 1)
-        {
-            a[i] = first_val;
-        }
-        else
-        {
-            a[i] = a[i + 1];
-        }
-
-        printf("%d \n", a[i]);
+        a[i] = a[i + 1];
     }
+
+    a[n - 1] = first_val;
 }
 
 void test_rotate_array_left(void)
