@@ -234,24 +234,19 @@ Zum Beispiel: Ungultiger Baum (9 ist größer als Wurzel, ist aber links von der
 */
 bool is_search_tree_recursive(Node *node, int min, int max)
 {
+
 	if (node == NULL)
 	{
 		return true;
 	}
 
-	bool left_is_ok = is_search_tree_recursive(node->left, min, node->value);
-	bool right_is_ok = is_search_tree_recursive(node->right, node->value, max);
-
-	if (node->value > min && node->value < max && left_is_ok && right_is_ok)
-	{
-		return true;
-	}
-	else
+	if (node->value <= min || node->value >= max)
 	{
 		return false;
 	}
 
-	return true;
+	return is_search_tree_recursive(node->left, min, node->value) &&
+		   is_search_tree_recursive(node->right, node->value, max);
 }
 
 bool is_search_tree(Tree *tree)

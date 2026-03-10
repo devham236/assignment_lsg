@@ -39,31 +39,24 @@ void print_tree(Node *node, int depth)
 //  Ein Knoten ist monoton, wenn der Wert nicht größer ist, als die Werte der unmittelbaren Kinder.
 //  Ein leerer Baum ist immer monoton.
 
-bool is_monotone_tree_recursive(Node *node, int min)
+bool is_monotone_tree(Node *node)
 {
     if (node == NULL)
     {
         return true;
     }
 
-    bool left_is_ok = is_monotone_tree_recursive(node->left, node->value);
-    bool right_is_ok = is_monotone_tree_recursive(node->right, node->value);
-
-    if (node->value >= min && left_is_ok && right_is_ok)
-    {
-        return true;
-    }
-    else
+    if (node->left != NULL && node->left->value < node->value)
     {
         return false;
     }
 
-    return true;
-}
+    if (node->right != NULL && node->right->value < node->value)
+    {
+        return false;
+    }
 
-bool is_monotone_tree(Node *node)
-{
-    return is_monotone_tree_recursive(node, INT_MIN);
+    return is_monotone_tree(node->left) && is_monotone_tree(node->right);
 }
 
 int main()
