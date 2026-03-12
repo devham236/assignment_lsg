@@ -5,23 +5,28 @@ Compile & run: make is_search_tree && ./is_search_tree
 */
 
 #include "base.h"
+#include <limits.h>
 
-typedef struct Node{
+typedef struct Node
+{
 	int value;
-	struct Node* left;
-	struct Node* right;
-}Node;
+	struct Node *left;
+	struct Node *right;
+} Node;
 
-Node* new_node(Node* left, int value, Node* right){
-	Node* node = xmalloc(sizeof(Node));
+Node *new_node(Node *left, int value, Node *right)
+{
+	Node *node = xmalloc(sizeof(Node));
 	node->left = left;
 	node->value = value;
 	node->right = right;
 	return node;
 }
 
-void free_node(Node * node){
-	if(node){
+void free_node(Node *node)
+{
+	if (node)
+	{
 		free_node(node->left);
 		free_node(node->right);
 		node->left = NULL;
@@ -30,10 +35,14 @@ void free_node(Node * node){
 	}
 }
 
-void print_node(Node* node) {
-	if (node == NULL) {
+void print_node(Node *node)
+{
+	if (node == NULL)
+	{
 		printf("E");
-	} else {
+	}
+	else
+	{
 		printf("Node(");
 		print_node(node->left);
 		printf(", %d, ", node->value);
@@ -42,105 +51,125 @@ void print_node(Node* node) {
 	}
 }
 
-int min_int(int a, int b){
-	if(a < b){
+int min_int(int a, int b)
+{
+	if (a < b)
+	{
 		return a;
 	}
 	return b;
 }
 
-int max_int(int a, int b){
-	if(a > b){
+int max_int(int a, int b)
+{
+	if (a > b)
+	{
 		return a;
 	}
 	return b;
 }
 
+typedef struct
+{
+	Node *root;
+} Tree;
 
-
-
-typedef struct{
-	Node* root;
-}Tree;
-
-Tree* new_tree(Node* root){
-	Tree* tree = xmalloc(sizeof(Tree));
+Tree *new_tree(Node *root)
+{
+	Tree *tree = xmalloc(sizeof(Tree));
 	tree->root = root;
 	return tree;
 }
 
-void free_tree(Tree* tree){
-	if(tree){
+void free_tree(Tree *tree)
+{
+	if (tree)
+	{
 		free_node(tree->root);
 		tree->root = NULL;
 		free(tree);
 	}
 }
 
-void print_tree(Tree* tree){
+void print_tree(Tree *tree)
+{
 	printf("Tree: ");
-	if(tree)
+	if (tree)
 		print_node(tree->root);
 	printf("\n");
 }
 
-
 /** Returns true if this is a search tree. Returns false otherwise.
-  * May need a helper method. */
-bool is_search_tree(Tree* tree) {
-	return false;
+ * May need a helper method. */
+bool is_search_tree_recursive(Node *n, int min, int max)
+{
+	if (n == NULL)
+	{
+		return true;
+	}
+
+	if (n->value <= min || n->value >= max)
+	{
+		return false;
+	}
+
+	return is_search_tree_recursive(n->left, min, n->value) && is_search_tree_recursive(n->right, n->value, max);
 }
 
+bool is_search_tree(Tree *tree)
+{
+	return is_search_tree_recursive(tree->root, INT_MIN, INT_MAX);
+}
 
-void test() {
-	Tree* t = new_tree(NULL);
+void test()
+{
+	Tree *t = new_tree(NULL);
 	test_equal_b(is_search_tree(t), true);
 	free_tree(t);
-		
+
 	t = new_tree(new_node(NULL, 100, NULL));
 	test_equal_b(is_search_tree(t), true);
 	free_tree(t);
-	
+
 	t = new_tree(new_node(new_node(NULL, 99, NULL), 100, new_node(NULL, 101, NULL)));
 	test_equal_b(is_search_tree(t), true);
 	free_tree(t);
-	
+
 	t = new_tree(new_node(new_node(NULL, 101, NULL), 100, new_node(NULL, 99, NULL)));
 	test_equal_b(is_search_tree(t), false);
 	free_tree(t);
-		
+
 	t = new_tree(new_node(new_node(NULL, 101, NULL), 100, new_node(NULL, 199, NULL)));
 	test_equal_b(is_search_tree(t), false);
 	free_tree(t);
-	
+
 	t = new_tree(new_node(new_node(new_node(NULL, 6, NULL), 7, new_node(NULL, 9, NULL)), 8, NULL));
 	test_equal_b(is_search_tree(t), false);
 	free_tree(t);
-	
+
 	t = new_tree(new_node(new_node(NULL, 11, NULL), 100, new_node(NULL, 99, NULL)));
 	test_equal_b(is_search_tree(t), false);
 	free_tree(t);
-	
-	t = new_tree(new_node(new_node(new_node(NULL, 25, NULL), 50, new_node(NULL,75, NULL)), 100, new_node(new_node(NULL,125, NULL), 150, new_node(NULL, 175, NULL))));
+
+	t = new_tree(new_node(new_node(new_node(NULL, 25, NULL), 50, new_node(NULL, 75, NULL)), 100, new_node(new_node(NULL, 125, NULL), 150, new_node(NULL, 175, NULL))));
 	test_equal_b(is_search_tree(t), true);
 	free_tree(t);
 
 	t = new_tree(new_node(new_node(new_node(NULL, 55, NULL), 50, new_node(NULL, 75, NULL)), 100, new_node(new_node(NULL, 125, NULL), 150, new_node(NULL, 175, NULL))));
 	test_equal_b(is_search_tree(t), false);
 	free_tree(t);
-		
+
 	t = new_tree(new_node(NULL, 101, new_node(NULL, 100, NULL)));
 	test_equal_b(is_search_tree(t), false);
 	free_tree(t);
-		
+
 	t = new_tree(new_node(new_node(NULL, 50, NULL), 100, NULL));
 	test_equal_b(is_search_tree(t), true);
 	free_tree(t);
-
 }
-	
-			
-int main(void) {
+
+int main(void)
+{
 	report_memory_leaks(true);
 	test();
 	return 0;
